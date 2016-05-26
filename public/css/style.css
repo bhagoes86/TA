@@ -1,0 +1,16 @@
+body {
+  padding-top: 70px;
+}
+
+.form-style,
+.fit-alert {
+  width: 470px;
+  margin: 0 auto 20px;
+}
+
+.form-style {
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 20px;
+  padding: 0 25px 10px;
+  box-shadow: 10px 10px 5px #888;
+}
