@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Request;
+use Auth;
+use Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\PosyanduJawabKeluhan;
@@ -19,6 +21,7 @@ class PosyanduKeluhanController extends Controller
     public function index()
     {
         $keluhan = PosyanduKeluhan::join( 'posyandu_ibu', 'posyandu_keluhan.id_ibu', '=', 'posyandu_ibu.id' )
+                   ->where( 'posyandu_ibu.id_posyandu' ,  Auth::user()->id_posyandu )
                    ->select( 'posyandu_keluhan.*', 'posyandu_ibu.nama', 'posyandu_ibu.id_posyandu' )
                    ->get();
         return view( 'pages.posyandu.keluhan.index', compact( 'keluhan' ) );
@@ -31,7 +34,7 @@ class PosyanduKeluhanController extends Controller
      */
     public function create()
     {
-        return view( 'posyandu.keluhan.create' );
+        // return view( 'posyandu.keluhan.create' );
     }
 
     /**
@@ -42,10 +45,10 @@ class PosyanduKeluhanController extends Controller
      */
     public function store(Request $request)
     {
-        $keluhan = Request::all();
-        PosyanduKeluhan::create( $keluhan );
-        return redirect( 'posyandu/keluhan' )
-               ->with( 'status', 'Data Keluhan berhasil disimpan!' );
+        // $keluhan = Request::all();
+        // PosyanduKeluhan::create( $keluhan );
+        // return redirect( 'posyandu/keluhan' )
+        //        ->with( 'status', 'Data Keluhan berhasil disimpan!' );
     }
 
     /**
@@ -54,32 +57,29 @@ class PosyanduKeluhanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function comment(Request $request)
+    public function comment(Request $request, $id)
     {
         $data = Request::all();
         PosyanduJawabKeluhan::create( [
-            'id_keluhan' => $data['id'],
+            'id_keluhan' => $id,
             'isi' => $data['komentar'],
             'user' => '1'
         ] );
 
         $newdata = PosyanduJawabKeluhan::orderBy( 'created_at', 'desc' )
                    ->first();
-        return redirect()
-               ->action( 'PosyanduKeluhanController@show', [$newdata['id_keluhan']] )
-               ->with( 'status', 'Komentar/balasan berhasil disimpan!' );
+        
+        Session::flash( 'success', "Jawaban keluhan berhasil disimpan!" );
+        return redirect()->route( 'posyandu.keluhan.show' , $newdata['id_keluhan'] );
     }
 
-    public function delete_comment(Request $request)
+    public function delete_comment(Request $request, $id)
     {
-        $data = Request::all();
-        $idkeluhan = PosyanduJawabKeluhan::find( $data['id'])->get()->first();
-        PosyanduJawabKeluhan::find( $data['id'] )->delete();
-
-        return redirect()
-               ->action( 'PosyanduKeluhanController@show', [$idkeluhan['id_keluhan']] )
-               ->with( 'status', 'Komentar/balasan berhasil dihapus!' );
-        dd($data);
+        // $data = Request::all();
+        $idkeluhan = PosyanduJawabKeluhan::find( $id )->get()->first();
+        PosyanduJawabKeluhan::find( $id )->delete();
+        Session::flash( 'success', "Jawaban keluhan berhasil dihapus!" );
+        return redirect()->route( 'posyandu.keluhan.show' , $idkeluhan['id_keluhan'] );
     }
 
     public function edit_comment(Request $request)
@@ -107,7 +107,7 @@ class PosyanduKeluhanController extends Controller
                    ->where( 'posyandu_keluhan.id', $id )
                    ->first();
         $komentar = PosyanduJawabKeluhan::where( 'id_keluhan', $id )->get();
-        return view( 'posyandu.keluhan.show', compact( 'keluhan', 'komentar' ) );
+        return view( 'pages.posyandu.keluhan.show', compact( 'keluhan', 'komentar' ) );
     }
 
     /**

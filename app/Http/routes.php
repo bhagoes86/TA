@@ -222,6 +222,10 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
 
   // KELUHAN
   Route::get( 'posyandu/keluhan', ['as' => 'posyandu.keluhan', 'uses' => 'PosyanduKeluhanController@index'] );
+  Route::get( 'posyandu/keluhan/show/{id}', ['as' => 'posyandu.keluhan.show', 'uses' => 'PosyanduKeluhanController@show'] );
+  Route::get( 'posyandu/keluhan/delete{id}', ['as' => 'posyandu.keluhan.delete', 'uses' => 'PosyanduKeluhanController@destroy'] );
+  Route::post( 'posyandu/jawabkeluhan/create/{id}', ['as' => 'posyandu.jawabkeluhan.create', 'uses' => 'PosyanduKeluhanController@comment'] );
+  Route::get( 'posyandu/jawabkeluhan/delete{id}', ['as' => 'posyandu.jawabkeluhan.delete', 'uses' => 'PosyandukeluhanController@delete_comment'] );
 
   // PENGUMUMAN
   Route::get( 'posyandu/pengumuman', ['as' => 'posyandu.pengumuman', 'uses' => 'PosyanduPengumumanController@index'] );
