@@ -28,10 +28,6 @@ Route::get( 'pkk/login', ['as' => 'pkk.login', 'uses' => 'PkkAuthController@inde
 Route::post( 'pkk/login', ['as' => 'pkk.login.post', 'uses' => 'PkkAuthController@login'] );
 Route::get( 'pkk/logout', ['as' => 'pkk.logout', 'uses' => 'PkkAuthController@logout'] );
 
-
-// REGISTRATION
-Route::match( ['get', 'post'], 'pkk/register', ['as' => 'pkk.register', 'uses' => 'PkkAuthController@register'] );
-
 // FORGET PASSWORD
 Route::get( 'pkk/password/email', ['as' => 'pkk.password.email', 'uses' => 'Auth\PasswordController@getEmail'] );
 Route::post( 'pkk/password/email', ['as' => 'pkk.password.email.post', 'uses' => 'Auth\PasswordController@postEmail'] );
@@ -111,7 +107,10 @@ Route::group( ['middleware' => 'pkk-admin-login'], function() {
   Route::post( 'pkk-admin/profile/change-username', ['as' => 'pkk.admin.profile.change-username', 'uses' => 'PkkAdminProfileController@updateUsername'] );
   Route::post( 'pkk-admin/profile/change-password', ['as' => 'pkk.admin.profile.change-password', 'uses' => 'PkkAdminProfileController@updatePassword'] );
   // USERS
-  Route::get( 'pkk-admin/users', ['as' => 'pkk.admin.users', 'uses' => 'PkkAdminUsersController@index'] );
+  Route::get( 'pkk-admin/users/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', ['as' => 'pkk.admin.users', 'uses' => 'PkkAdminUsersController@index'] );
+  Route::post( 'pkk-admin/users/filter', ['as' => 'pkk.admin.users.filter', 'uses' => 'PkkAdminUsersController@filter'] );
+  Route::post( 'pkk-admin/users/add', ['as' => 'pkk.admin.users.add', 'uses' => 'PkkAdminUsersController@add'] );
+  // Route::post( 'pkk-admin/users/filter/{step}', ['as' => 'pkk.admin.users.filter', 'uses' => 'PkkAdminUsersController@index'] );
   Route::get( 'pkk-admin/users/create-admin', ['as' => 'pkk.admin.create', 'uses' => 'PkkAdminUsersController@createAdmin'] );
   Route::post( 'pkk-admin/users/create-admin', ['as' => 'pkk.admin.store', 'uses' => 'PkkAdminUsersController@storeAdmin'] );
   Route::get( 'pkk-admin/users/edit/{id}', ['as' => 'pkk.admin.edit', 'uses' => 'PkkAdminUsersController@edit'] );
@@ -141,7 +140,7 @@ Route::post( 'posyandu/password/reset', ['as' => 'posyandu.password.reset.post',
 Route::group( ['middleware' => 'posyandu-login'], function() {
   // DASHBOARD
   Route::get( 'posyandu', ['as' => 'posyandu', 'uses' => 'PosyanduDashboardController@index'] );
-  
+
   // IBU
   Route::get( 'posyandu/ibu', ['as' => 'posyandu.ibu', 'uses' => 'PosyanduIbuController@index'] );
   Route::get( 'posyandu/ibu/create', ['as' => 'posyandu.ibu.create', 'uses' => 'PosyanduIbuController@create'] );
@@ -205,7 +204,7 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
   Route::get( 'posyandu/kas/edit/{id}', ['as' => 'posyandu.kas.edit', 'uses' => 'PosyanduKasController@edit'] );
   Route::post( 'posyandu/kas/update/{id}', ['as' => 'posyandu.kas.update', 'uses' => 'PosyanduKasController@update'] );
   Route::get( 'posyandu/kas/delete{id}', ['as' => 'posyandu.kas.delete', 'uses' => 'PosyanduKasController@destroy'] );
-  
+
   // ABSEN
   Route::get( 'posyandu/absen', ['as' => 'posyandu.absen', 'uses' => 'PosyanduAbsenController@index'] );
   Route::get( 'posyandu/absen/create', ['as' => 'posyandu.absen.create', 'uses' => 'PosyanduAbsenController@create'] );
@@ -244,7 +243,7 @@ Route::match( ['get', 'post'], 'posyandu/register', ['as' => 'posyandu.register'
 Route::group( ['middleware' => 'posyandu-admin-login'], function() {
   // DASHBOARD
   Route::get( 'posyandu-admin', ['as' => 'posyandu.admin', 'uses' => 'PosyanduDashboardController@index' ] );
-  
+
   // PROFILE
   Route::get( 'posyandu-admin/profile', ['as' => 'posyandu.admin.profile', 'uses' => 'PosyanduAdminProfileController@index'] );
   Route::post( 'posyandu-admin/profile/change-username', ['as' => 'posyandu.admin.profile.change-username', 'uses' => 'PosyanduAdminProfileController@updateUsername'] );
@@ -266,7 +265,7 @@ Route::group( ['middleware' => 'posyandu-admin-login'], function() {
   Route::get( 'posyandu-admin/jenisimunisasi/edit/{id}', ['as' => 'posyandu.jenisimunisasi.edit', 'uses' => 'PosyanduImunisasiController@edit'] );
   Route::post( 'posyandu-admin/jenisimunisasi/update/{id}', ['as' => 'posyandu.jenisimunisasi.update', 'uses' => 'PosyanduImunisasiController@update'] );
   Route::get( 'posyandu-admin/jenisimunisasi/delete{id}', ['as' => 'posyandu.jenisimunisasi.delete', 'uses' => 'PosyanduImunisasiController@destroy'] );
-  
+
   // PROVINSI
   Route::get( 'posyandu-admin/provinsi', ['as' => 'posyandu.provinsi', 'uses' => 'PosyanduProvinsiController@index'] );
   Route::get( 'posyandu-admin/provinsi/create', ['as' => 'posyandu.provinsi.create', 'uses' => 'PosyanduProvinsiController@create'] );
