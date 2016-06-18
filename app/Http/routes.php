@@ -110,7 +110,8 @@ Route::group( ['middleware' => 'pkk-admin-login'], function() {
   Route::get( 'pkk-admin/users/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', ['as' => 'pkk.admin.users', 'uses' => 'PkkAdminUsersController@index'] );
   Route::post( 'pkk-admin/users/filter', ['as' => 'pkk.admin.users.filter', 'uses' => 'PkkAdminUsersController@filter'] );
   Route::post( 'pkk-admin/users/add', ['as' => 'pkk.admin.users.add', 'uses' => 'PkkAdminUsersController@add'] );
-  Route::get( 'pkk-admin/users/delete/{id}', ['as' => 'pkk.admin.delete', 'uses' => 'PkkAdminUsersController@destroy'] );
+  Route::get( 'pkk-admin/users/reset/{id}', ['as' => 'pkk.admin.users.reset', 'uses' => 'PkkAdminUsersController@reset'] );
+  Route::get( 'pkk-admin/users/delete/{id}', ['as' => 'pkk.admin.users.delete', 'uses' => 'PkkAdminUsersController@destroy'] );
 } );
 
 

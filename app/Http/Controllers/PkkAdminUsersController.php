@@ -159,6 +159,25 @@ class PkkAdminUsersController extends Controller
         return view( 'pages.pkk.admin.users.create-admin', compact( 'data' ) );
     }
 
+    public function reset( $id )
+    {
+        if ( $user = User::find( $id ) ) {
+            $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $newPass = "";
+            for ( $i=0; $i < 8; $i++ ) {
+                $newPass .= $chars[rand( 0, 35 )];
+            }
+
+            $user->password = Hash::make( $newPass );
+            $user->save();
+
+            Session::flash( 'success', "Kata sandi berhasil direset.\nKata sandi baru: ".$newPass );
+        }
+
+        Session::flash( 'warning', "<b>Reset kata sandi gagal!</b>: Akun pengguna tidak ditemukan!" );
+        return redirect()->route( 'pkk.admin.users' );
+    }
+
     /**
      * Remove the specified resource from storage.
      *
