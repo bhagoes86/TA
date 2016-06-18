@@ -110,11 +110,6 @@ Route::group( ['middleware' => 'pkk-admin-login'], function() {
   Route::get( 'pkk-admin/users/{provinsi}/{kabupaten}/{kecamatan}/{kelurahan}', ['as' => 'pkk.admin.users', 'uses' => 'PkkAdminUsersController@index'] );
   Route::post( 'pkk-admin/users/filter', ['as' => 'pkk.admin.users.filter', 'uses' => 'PkkAdminUsersController@filter'] );
   Route::post( 'pkk-admin/users/add', ['as' => 'pkk.admin.users.add', 'uses' => 'PkkAdminUsersController@add'] );
-  // Route::post( 'pkk-admin/users/filter/{step}', ['as' => 'pkk.admin.users.filter', 'uses' => 'PkkAdminUsersController@index'] );
-  Route::get( 'pkk-admin/users/create-admin', ['as' => 'pkk.admin.create', 'uses' => 'PkkAdminUsersController@createAdmin'] );
-  Route::post( 'pkk-admin/users/create-admin', ['as' => 'pkk.admin.store', 'uses' => 'PkkAdminUsersController@storeAdmin'] );
-  Route::get( 'pkk-admin/users/edit/{id}', ['as' => 'pkk.admin.edit', 'uses' => 'PkkAdminUsersController@edit'] );
-  Route::post( 'pkk-admin/users/edit/{id}', ['as' => 'pkk.admin.update', 'uses' => 'PkkAdminUsersController@update'] );
   Route::get( 'pkk-admin/users/delete/{id}', ['as' => 'pkk.admin.delete', 'uses' => 'PkkAdminUsersController@destroy'] );
 } );
 
