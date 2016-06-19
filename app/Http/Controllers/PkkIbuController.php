@@ -46,6 +46,8 @@ class PkkIbuController extends Controller
      */
     public function store(PkkIbuRequest $request)
     {
+        $token = $this->generateToken();
+
         PkkIbu::create( [
             'id_pkk'            => Auth::user()->id_pkk,
             'no_ktp'            => $request->no_ktp,
@@ -53,8 +55,10 @@ class PkkIbuController extends Controller
             'alamat'            => $request->alamat,
             'telp'              => $request->telp,
             'password_mobile'   => $request->password_mobile,
+            'token'             => $token,
         ] );
-        Session::flash( 'success', "Anggota PKK baru berhasil ditambahkan!" );
+
+        Session::flash( 'success', "Anggota PKK baru berhasil ditambahkan!<br>Token pengguna: <strong>".$token."</strong>" );
         return redirect()->route( 'pkk.ibu.index' );
     }
 
@@ -81,8 +85,18 @@ class PkkIbuController extends Controller
      */
     public function update(PkkIbuRequest $request, $id)
     {
-        PkkIbu::find( $id )->update( $request->all() );
-        Session::flash( 'success', "Data Anggota PKK berhasil dirubah!" );
+        $token = $this->generateToken();
+
+        PkkIbu::find( $id )->update( [
+            'no_ktp'            => $request->no_ktp,
+            'nama'              => $request->nama,
+            'alamat'            => $request->alamat,
+            'telp'              => $request->telp,
+            'password_mobile'   => $request->password_mobile,
+            'token'             => $token,
+        ] );
+
+        Session::flash( 'success', "Data Anggota PKK berhasil dirubah!<br>Token pengguna: <strong>".$token."</strong>" );
         return redirect()->route( 'pkk.ibu.index' );
     }
 
@@ -97,5 +111,32 @@ class PkkIbuController extends Controller
         PkkIbu::find( $id )->delete();
         Session::flash( 'success', "Data Anggota PKK berhasil dihapus!" );
         return redirect()->route( 'pkk.ibu.index' );
+    }
+
+    public function reset( $id )
+    {
+        $token = $this->generateToken();
+
+        PkkIbu::find( $id )->update( [
+            'token' => $token,
+        ] );
+
+        Session::flash( 'success', "Token berhasil direset!<br>Token pengguna: <strong>".$token."</strong>" );
+        return redirect()->route( 'pkk.ibu.index' );
+    }
+
+    /**
+     * function to generate new token
+     *
+     * @return string[8]
+     */
+    public function generateToken()
+    {
+        $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $token = "";
+        for ( $i=0; $i < 8; $i++ ) {
+            $token .= $chars[rand( 0, 35 )];
+        }
+        return $token;
     }
 }

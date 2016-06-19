@@ -41,7 +41,7 @@
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Telepon</th>
-                <th>Akses mobile</th>
+                <th class="col-xs-1">Token mobile</th>
                 <th class="col-xs-2">Aksi</th>
               </tr>
             </thead>
@@ -56,9 +56,9 @@
                   <td>{!! $row->telp !!}</td>
                   <td>
                     @if( $row->password_mobile )
-                      <span class="btn btn-sm btn-success"><i class="fa fa-check"></i>&nbsp;&nbsp;sudah</span>
+                      <a href="{!! route( 'pkk.ibu.reset', $row->id ) !!}" class="btn btn-sm btn-success btn-block"><i class="fa fa-retweet"></i>&nbsp;&nbsp;RESET TOKEN</a>
                     @else
-                      <span class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>&nbsp;&nbsp;belum</span>
+                      <span class="btn btn-sm btn-danger btn-block"><i class="fa fa-ban"></i>&nbsp;&nbsp;BELUM</span>
                     @endif
                   </td>
                   <td>

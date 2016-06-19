@@ -45,6 +45,7 @@ Route::group( ['middleware' => 'pkk-login'], function() {
   // IBU
   Route::resource( 'pkk/ibu', 'PkkIbuController', ['except' => ['show', 'destroy']] );
   Route::get( 'pkk/ibu/delete/{id}', ['as' => 'pkk.ibu.delete', 'uses' => 'PkkIbuController@destroy'] );
+  Route::get( 'pkk/ibu/reset/{id}', ['as' => 'pkk.ibu.reset', 'uses' => 'PkkIbuController@reset'] );
   // JENIS KAS
   Route::get( 'pkk/jeniskas', ['as' => 'pkk.jeniskas', 'uses' => 'PkkJenisKasController@index'] );
   Route::get( 'pkk/jeniskas/{type}/create', ['as' => 'pkk.jeniskas.create', 'uses' => 'PkkJenisKasController@create'] );
