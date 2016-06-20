@@ -47,7 +47,7 @@ class PkkIbuController extends Controller
      */
     public function store(PkkIbuRequest $request)
     {
-        $token = $this->generateToken();
+        $token = $request->password_mobile ? $this->generateToken() : "";
 
         PkkIbu::create( [
             'id_pkk'            => Auth::user()->id_pkk,
@@ -56,10 +56,10 @@ class PkkIbuController extends Controller
             'alamat'            => $request->alamat,
             'telp'              => $request->telp,
             'password_mobile'   => $request->password_mobile,
-            'token'             => Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ),
+            'token'             => $request->password_mobile ? Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ) : "",
         ] );
 
-        Session::flash( 'success', "Anggota PKK baru berhasil ditambahkan!<br>Token pengguna: <strong>".$token."</strong>" );
+        Session::flash( 'success', "Anggota PKK baru berhasil ditambahkan!".( $request->password_mobile ? "<br>Token pengguna: <strong>".$token."</strong>" : "" ) );
         return redirect()->route( 'pkk.ibu.index' );
     }
 
@@ -86,18 +86,21 @@ class PkkIbuController extends Controller
      */
     public function update(PkkIbuRequest $request, $id)
     {
-        $token = $this->generateToken();
-
-        PkkIbu::find( $id )->update( [
+        $token = $request->password_mobile ? $this->generateToken() : "";
+        $data = [
             'no_ktp'            => $request->no_ktp,
             'nama'              => $request->nama,
             'alamat'            => $request->alamat,
             'telp'              => $request->telp,
-            'password_mobile'   => $request->password_mobile,
-            'token'             => Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ),
-        ] );
+        ];
 
-        Session::flash( 'success', "Data Anggota PKK berhasil dirubah!<br>Token pengguna: <strong>".$token."</strong>" );
+        if ( $request->password_mobile ) {
+            $data['password_mobile'] = $request->password_mobile;
+            $data['token'] = Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token );
+        }
+        PkkIbu::find( $id )->update( $data );
+
+        Session::flash( 'success', "Data Anggota PKK berhasil diubah!".( $request->password_mobile ? "<br>Token pengguna: <strong>".$token."</strong>" : "" ) );
         return redirect()->route( 'pkk.ibu.index' );
     }
 
@@ -136,7 +139,7 @@ class PkkIbuController extends Controller
         $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $token = "";
         for ( $i=0; $i < 8; $i++ ) {
-            $token .= $chars[rand( 0, 35 )];
+            $token .= $chars[rand( 0, strlen( $chars )-1 )];
         }
         return $token;
     }

@@ -6,7 +6,6 @@
   <hr>
   <p class="text-muted well well-sm no-shadow">Kata sandi untuk akses aplikasi mobile, kosongkan bila tidak perlu</p>
   {!! BootForm::password( 'Kata sandi:', 'password_mobile' )->addClass( 'pass' ) !!}
-  {!! BootForm::password( 'Masukkan ulang kata sandi:', 're_password' )->addClass( 'pass' ) !!}
 </div>
 <div class="box-footer">
   {!! BootForm::submit( 'Simpan data' )->removeClass( 'btn-default' )->addClass( 'btn-primary' ) !!}
