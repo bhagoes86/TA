@@ -235,6 +235,7 @@ Route::group( ['middleware' => 'posyandu-admin-login'], function() {
   Route::get( 'posyandu/data/edit/{id}', ['as' => 'posyandu.data.edit', 'uses' => 'PosyanduDataController@edit'] );
   Route::post( 'posyandu/data/update/{id}/{kel_id}', ['as' => 'posyandu.data.update', 'uses' => 'PosyanduDataController@update'] );
   Route::get( 'posyandu/data/delete{id}', ['as' => 'posyandu.data.delete', 'uses' => 'PosyanduDataController@destroy'] );
+  Route::get( 'posyandu/data/reset/{id}', ['as' => 'posyandu.data.reset', 'uses' => 'PosyanduDataController@reset'] );
 
   // JENIS IMUNISASI
   Route::get( 'posyandu-admin/jenisimunisasi', ['as' => 'posyandu.jenisimunisasi', 'uses' => 'PosyanduImunisasiController@index'] );

@@ -134,4 +134,23 @@ class PosyanduDataController extends Controller
         // return redirect()->route( 'posyandu.data' );
         return redirect()->back();
     }
+
+    public function reset( $id )
+    {
+        if ( $user = User::where( 'id_posyandu', $id )->first() ) {
+            $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $newPass = "";
+            for ( $i=0; $i < 8; $i++ ) {
+                $newPass .= $chars[rand( 0, 35 )];
+            }
+
+            $user->password = Hash::make( $newPass );
+            $user->save();
+
+            Session::flash( 'success', "Kata sandi berhasil direset.\nKata sandi baru: ".$newPass );
+        }
+
+        Session::flash( 'warning', "<b>Reset kata sandi gagal!</b>: Akun pengguna tidak ditemukan!" );
+        return redirect()->route( 'posyandu.data' );
+    }
 }

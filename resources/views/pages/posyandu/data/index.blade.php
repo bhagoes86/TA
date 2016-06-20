@@ -34,7 +34,8 @@
                   <th>Telp</th>
                   <th>Puskesmas</th>
                   <th>RW</th>
-                  <th class="col-xs-4">Aksi</th>
+                  <th class="col-xs-1">Kata sandi</th>
+                  <th class="col-xs-2">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,7 +50,17 @@
                     <td>{!! $pos->rw !!}</td>
                     <td>
                       <div class="btn-group btn-group-justified">
-                       
+                        <div class="btn-group" role="group">
+                          <a href="{!! route( 'posyandu.data.reset', $pos->id ) !!}" class="btn btn-danger">
+                            <i class="fa fa-retweet"></i>
+                            &nbsp;Reset
+                          </a>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-justified">
+
                         <div class="btn-group" role="group">
                           <a href="{!! route( 'posyandu.data.edit', $pos->id ) !!}" class="btn btn-warning">
                             <i class="fa fa-pencil-square-o"></i>
