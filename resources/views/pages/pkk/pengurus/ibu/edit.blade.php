@@ -10,7 +10,6 @@
       $( 'form' ).bind( 'submit', function() {
         if ( $( "input[name=password_mobile]" )[0].value != "" ) {
           $( "input[name=password_mobile]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=password_mobile]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
-          $( "input[name=re_password]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=re_password]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
         }
       } );
     } );

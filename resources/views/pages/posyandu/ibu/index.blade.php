@@ -33,6 +33,7 @@
                   <th>Nama Ibu</th>
                   <th>Alamat</th>
                   <th>No Telp</th>
+                  <th class="col-xs-1">Token mobile</th>
                   <th class="col-xs-4">Aksi</th>
                 </tr>
               </thead>
@@ -45,6 +46,13 @@
                       <td>{!! $ibubalita->nama !!}</td>
                       <td>{!! $ibubalita->alamat !!}</td>
                       <td>{!! $ibubalita->telp !!}</td>
+                      <td>
+                        @if( $ibubalita->password_mobile )
+                          <a href="{!! route( 'posyandu.ibu.reset', $ibubalita->id ) !!}" class="btn btn-sm btn-success btn-block"><i class="fa fa-retweet"></i>&nbsp;&nbsp;RESET TOKEN</a>
+                        @else
+                          <span class="btn btn-sm btn-danger btn-block"><i class="fa fa-ban"></i>&nbsp;&nbsp;BELUM</span>
+                        @endif
+                      </td>
                       <td>
                         <div class="btn-group btn-group-justified">
                           <div class="btn-group" role="group">
@@ -78,6 +86,13 @@
                       <td>{!! $ibubalita->alamat !!}</td>
                       <td>{!! $ibubalita->telp !!}</td>
                       <td>
+                        @if( $ibubalita->password_mobile )
+                          <a href="{!! route( 'posyandu.ibu.reset', $ibubalita->id ) !!}" class="btn btn-sm btn-success btn-block"><i class="fa fa-retweet"></i>&nbsp;&nbsp;RESET TOKEN</a>
+                        @else
+                          <span class="btn btn-sm btn-danger btn-block"><i class="fa fa-ban"></i>&nbsp;&nbsp;BELUM</span>
+                        @endif
+                      </td>
+                      <td>
                         <div class="btn-group btn-group-justified">
                           <div class="btn-group" role="group">
                             <a href="{!! route( 'posyandu.ibu.show', $ibubalita->id ) !!}" class="btn btn-info">
@@ -102,7 +117,7 @@
                     </tr>
                     @endif
                   @endforeach
-                @endif             
+                @endif
               </tbody>
             </table>
           </div>

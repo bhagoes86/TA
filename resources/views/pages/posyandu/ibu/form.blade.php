@@ -5,7 +5,7 @@
   {!! BootForm::text( 'No Telp:', 'telp' ) !!}
   {!! BootForm::text( 'KB:', 'kb' ) !!}
   {!! BootForm::text( 'Tanggal Lahir:', 'tanggal_lahir' )->addClass( 'datepicker3' ) !!}
-  {!! BootForm::text( 'Password Mobile:', 'password_mobile' ) !!}
+  {!! BootForm::password( 'Password Mobile:', 'password_mobile' ) !!}
 </div>
 <div class="box-footer">
   {!! BootForm::submit( 'Simpan data' )->removeClass( 'btn-default' )->addClass( 'btn-primary' ) !!}

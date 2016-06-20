@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Session;
 
+use App\Cryptography;
+
 use App\PosyanduIbu;
 use App\PosyanduData;
 use App\PosyanduBalita;
@@ -47,9 +49,21 @@ class PosyanduIbuController extends Controller
      */
     public function store(PosyanduIbuRequest $request)
     {
-        $ibu = $request->all();
-        PosyanduIbu::create( $ibu );
-        Session::flash( 'success', "Data Ibu baru berhasil ditambahkan!" );
+        $token = $request->password_mobile ? $this->generateToken() : "";
+
+        PosyanduIbu::create( [
+            'id_posyandu'       => Auth::user()->id_posyandu,
+            'no_ktp'            => $request->no_ktp,
+            'nama'              => $request->nama,
+            'alamat'            => $request->alamat,
+            'telp'              => $request->telp,
+            'kb'                => $request->kb,
+            'tanggal_lahir'     => $request->tanggal_lahir,
+            'password_mobile'   => $request->password_mobile,
+            'token'             => $request->password_mobile ? Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ) : "",
+        ] );
+
+        Session::flash( 'success', "Data Ibu baru berhasil ditambahkan!".( $request->password_mobile ? "<br>Token pengguna: <strong>".$token."</strong>" : "" ) );
         return redirect()->route( 'posyandu.ibu' );
     }
 
@@ -90,10 +104,21 @@ class PosyanduIbuController extends Controller
      */
     public function update(PosyanduIbuRequest $request, $id)
     {
-        $ibuUpdate = $request->all();
-        $ibu = PosyanduIbu::find( $id );
-   
-        $ibu->update( $ibuUpdate );
+        $token = $request->password_mobile ? $this->generateToken() : "";
+        $data = [
+            'no_ktp'            => $request->no_ktp,
+            'nama'              => $request->nama,
+            'alamat'            => $request->alamat,
+            'telp'              => $request->telp,
+            'kb'                => $request->kb,
+            'tanggal_lahir'     => $request->tanggal_lahir,
+        ];
+
+        if ( $request->password_mobile ) {
+            $data['password_mobile'] = $request->password_mobile;
+            $data['token'] = Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token );
+        }
+        PosyanduIbu::find( $id )->update( $data );
 
         $balita = PosyanduBalita::all();
         foreach($balita as $balitaUpdate)
@@ -109,7 +134,7 @@ class PosyanduIbuController extends Controller
         }
 
         $ibu = PosyanduIbu::orderBy( 'created_at' , 'desc' )->get()->first();
-        Session::flash( 'success', "Data Ibu berhasil diperbarui!" );
+        Session::flash( 'success', "Data Ibu berhasil diperbarui!".( $request->password_mobile ? "<br>Token pengguna: <strong>".$token."</strong>" : "" ) );
         return redirect()->route( 'posyandu.ibu.show' , $ibu['id'] );
     }
 
@@ -124,5 +149,32 @@ class PosyanduIbuController extends Controller
         PosyanduIbu::find( $id )->delete();
         Session::flash( 'success', "Data Ibu berhasil dihapus!" );
         return redirect()->route( 'posyandu.ibu' );
+    }
+
+    public function reset( $id )
+    {
+        $token = $this->generateToken();
+
+        PosyanduIbu::find( $id )->update( [
+            'token' => Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ),
+        ] );
+
+        Session::flash( 'success', "Token berhasil direset!<br>Token pengguna: <strong>".$token."</strong>" );
+        return redirect()->route( 'posyandu.ibu.show' , $id );
+    }
+
+    /**
+     * function to generate new token
+     *
+     * @return string[8]
+     */
+    public function generateToken()
+    {
+        $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $token = "";
+        for ( $i=0; $i < 8; $i++ ) {
+            $token .= $chars[rand( 0, strlen( $chars )-1 )];
+        }
+        return $token;
     }
 }

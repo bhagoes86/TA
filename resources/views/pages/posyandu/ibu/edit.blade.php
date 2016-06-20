@@ -15,6 +15,8 @@
 @section( 'custom-footer' )
   {!! HTML::script( 'adminlte/plugins/datepicker/bootstrap-datepicker.js' ) !!}
   {!! HTML::script( 'adminlte/plugins/datepicker/locales/bootstrap-datepicker.id.js' ) !!}
+  {!! HTML::script( 'js/aes.js' ) !!}
+  {!! HTML::script( 'js/aes-json-format.js' ) !!}
   <script type="text/javascript">
     $( function() {
       $( '.datepicker3' ).datepicker({
@@ -25,6 +27,11 @@
         autoclose: true,
         todayHighlight: true
       });
+      $( 'form' ).bind( 'submit', function() {
+        if ( $( "input[name=password_mobile]" )[0].value != "" ) {
+          $( "input[name=password_mobile]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=password_mobile]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
+        }
+      } );
     });
   </script>
 @endsection
@@ -54,12 +61,12 @@
                 </select>
               </div>
             @else
-              <div class="hidden"> 
+              <div class="hidden">
                 {!! Form::text('id_posyandu', $user->id_posyandu, ['class' => 'form-control']) !!}
               </div>
             @endif
           </div>
-          @include( 'pages.posyandu.ibu.form' ) 
+          @include( 'pages.posyandu.ibu.form' )
         {!! BootForm::close() !!}
       </div>
     </div>

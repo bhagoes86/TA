@@ -9,6 +9,8 @@
 @section( 'custom-footer' )
   {!! HTML::script( 'adminlte/plugins/datepicker/bootstrap-datepicker.js' ) !!}
   {!! HTML::script( 'adminlte/plugins/datepicker/locales/bootstrap-datepicker.id.js' ) !!}
+  {!! HTML::script( 'js/aes.js' ) !!}
+  {!! HTML::script( 'js/aes-json-format.js' ) !!}
   <script type="text/javascript">
     $( function() {
       $( '.datepicker3' ).datepicker({
@@ -19,6 +21,11 @@
         autoclose: true,
         todayHighlight: true
       });
+      $( 'form' ).bind( 'submit', function() {
+        if ( $( "input[name=password_mobile]" )[0].value != "" ) {
+          $( "input[name=password_mobile]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=password_mobile]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
+        }
+      } );
     });
   </script>
 @endsection
@@ -39,7 +46,7 @@
         </div>
           {!! BootForm::open()->action( route( 'posyandu.ibu.store' ))!!}
           <div class="box-body">
-            <div class="hidden"> 
+            <div class="hidden">
               <select class="special-flexselect form-control" id="data-posyandu" name="id_posyandu" tabindex="1">
                 <option value="{!! $user->id_posyandu !!}" selected>{!! $user->id_posyandu !!}</option>
               </select>
@@ -50,4 +57,4 @@
        </div>
     </div>
   </div>
-@endsection 
+@endsection

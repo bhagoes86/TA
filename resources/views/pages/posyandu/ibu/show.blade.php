@@ -24,7 +24,14 @@
           <li class="list-group-item"><strong>No. Telp:</strong> <a class="pull-right">{{ $ibu->telp }}</a></li>
           <li class="list-group-item"><strong>KB Ibu:</strong> <a class="pull-right">{{ $ibu->kb }}</a></li>
           <li class="list-group-item"><strong>Tanggal Lahir:</strong> <a class="pull-right">{{ $ibu->tanggal_lahir }}</a></li>
-          <li class="list-group-item"><strong>Password Mobile:</strong> <a class="pull-right">{{ $ibu->password_mobile }}</a></li>
+          <li class="list-group-item">
+            <strong>Password Mobile:</strong>
+            @if( $ibu->password_mobile )
+              <a href="{!! route( 'posyandu.ibu.reset', $ibu->id ) !!}" class="btn btn-xs btn-success pull-right"><i class="fa fa-retweet"></i>&nbsp;&nbsp;RESET TOKEN</a>
+            @else
+              <span class="btn btn-xs btn-danger pull-right"><i class="fa fa-ban"></i>&nbsp;&nbsp;BELUM</span>
+            @endif
+          </li>
         </div>
         <div class="box-footer">
           <a href="{!! route( 'posyandu.ibu' ) !!}" class="btn btn-info">Kembali</a>
@@ -81,7 +88,7 @@
                         </div>
                       </td>
                     </tr>
-                  @endforeach            
+                  @endforeach
               </tbody>
             </table>
         </div>

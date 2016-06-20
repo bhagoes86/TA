@@ -29,7 +29,6 @@ class PosyanduIbuRequest extends Request
             'alamat'            => 'max:255',
             'telp'              => 'numeric | regex:/^\+?[0-9]+$/',
             'kb'                => 'max:20',
-            'password_mobile'   => 'min:4 | max:100',
         ];
     }
 
@@ -50,8 +49,6 @@ class PosyanduIbuRequest extends Request
             'telp.numeric'          => "Nomor telepon <b>hanya</b> terdiri dari angka dan/atau tanda plus (+), tanpa spasi, tanda titik (.), atau karakter lainnya.",
             'telp.regex'            => "Nomor telepon <b>hanya</b> terdiri dari angka dan/atau tanda plus (+), tanpa spasi, tanda titik (.), atau karakter lainnya.",
             'kb.max'                => "KB <b>maksimal</b> terdiri dari 20 karakter.",
-            'password_mobile.min'   => "Kata sandi <b>minimal</b> terdiri dari 4 karakter",
-            'password_mobile.max'   => "Password <b>maksimal</b> terdiri dari 100 karakter.",
         ];
     }
 }
