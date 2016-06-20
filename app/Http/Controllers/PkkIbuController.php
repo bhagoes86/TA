@@ -10,6 +10,7 @@ use Auth;
 use Session;
 
 use App\PkkIbu;
+use App\Cryptography;
 
 class PkkIbuController extends Controller
 {
@@ -55,7 +56,7 @@ class PkkIbuController extends Controller
             'alamat'            => $request->alamat,
             'telp'              => $request->telp,
             'password_mobile'   => $request->password_mobile,
-            'token'             => $token,
+            'token'             => Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ),
         ] );
 
         Session::flash( 'success', "Anggota PKK baru berhasil ditambahkan!<br>Token pengguna: <strong>".$token."</strong>" );
@@ -93,7 +94,7 @@ class PkkIbuController extends Controller
             'alamat'            => $request->alamat,
             'telp'              => $request->telp,
             'password_mobile'   => $request->password_mobile,
-            'token'             => $token,
+            'token'             => Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ),
         ] );
 
         Session::flash( 'success', "Data Anggota PKK berhasil dirubah!<br>Token pengguna: <strong>".$token."</strong>" );
@@ -118,7 +119,7 @@ class PkkIbuController extends Controller
         $token = $this->generateToken();
 
         PkkIbu::find( $id )->update( [
-            'token' => $token,
+            'token' => Cryptography::cryptoJsAesEncrypt( "sistemPKK", $token ),
         ] );
 
         Session::flash( 'success', "Token berhasil direset!<br>Token pengguna: <strong>".$token."</strong>" );

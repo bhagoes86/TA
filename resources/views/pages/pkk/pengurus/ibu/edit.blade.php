@@ -2,6 +2,21 @@
 
 @section( 'main-container-header-title', "Ubah Data Anggota PKK" )
 
+@section( 'custom-footer' )
+  {!! HTML::script( 'js/aes.js' ) !!}
+  {!! HTML::script( 'js/aes-json-format.js' ) !!}
+  <script type="text/javascript">
+    $( function() {
+      $( 'form' ).bind( 'submit', function() {
+        if ( $( "input[name=password_mobile]" )[0].value != "" ) {
+          $( "input[name=password_mobile]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=password_mobile]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
+          $( "input[name=re_password]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=re_password]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
+        }
+      } );
+    } );
+  </script>
+@endsection
+
 @section( 'main-container-breadcrumb' )
   <li><a href="{!! route( 'pkk' ) !!}"><i class="fa fa-dashboard"></i> Menu Utama</a></li>
   <li><a href="{!! route( 'pkk.ibu.index' ) !!}">Anggota PKK</a></li>

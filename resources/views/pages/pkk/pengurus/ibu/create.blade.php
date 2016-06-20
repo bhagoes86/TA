@@ -3,13 +3,14 @@
 @section( 'main-container-header-title', "Tambah Anggota PKK" )
 
 @section( 'custom-footer' )
-  {!! HTML::script( 'js/md5.js' ) !!}
+  {!! HTML::script( 'js/aes.js' ) !!}
+  {!! HTML::script( 'js/aes-json-format.js' ) !!}
   <script type="text/javascript">
     $( function() {
       $( 'form' ).bind( 'submit', function() {
         if ( $( "input[name=password_mobile]" )[0].value != "" ) {
-          $( "input[name=password_mobile]" )[0].value = CryptoJS.MD5( $( "input[name=password_mobile]" )[0].value ).toString();
-          $( "input[name=re_password]" )[0].value = CryptoJS.MD5( $( "input[name=re_password]" )[0].value ).toString();
+          $( "input[name=password_mobile]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=password_mobile]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
+          $( "input[name=re_password]" )[0].value = CryptoJS.AES.encrypt( JSON.stringify( $( "input[name=re_password]" )[0].value ), "sistemPKK", {format: CryptoJSAesJson } ).toString();
         }
       } );
     } );

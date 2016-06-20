@@ -19,7 +19,7 @@ class PkkKegiatan extends Model
   }
 
   public function notulensi() {
-    return $this->hasMany( 'App\PkkNotulensi', 'id_kegiatan' );
+    return $this->hasOne( 'App\PkkNotulensi', 'id_kegiatan' );
   }
 
   public function absen() {

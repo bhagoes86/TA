@@ -295,83 +295,24 @@ Route::group( ['middleware' => 'posyandu-admin-login'], function() {
   Route::get( 'posyandu-admin/kelurahan/edit/{id}', ['as' => 'posyandu.kelurahan.edit', 'uses' => 'PosyanduKelurahanController@edit'] );
   Route::post( 'posyandu-admin/kelurahan/update/{id}', ['as' => 'posyandu.kelurahan.update', 'uses' => 'PosyanduKelurahanController@update'] );
   Route::get( 'posyandu-admin/kelurahan/delete{id}', ['as' => 'posyandu.kelurahan.delete', 'uses' => 'PosyanduKelurahanController@destroy'] );
-
 } );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /*
-//  * Routing Halaman Posyandu...
-//  */
-// Route::get( 'posyandu/home', function () {
-//     return view( 'posyandu.home.index' );
-// } );
-// Route::get( 'main', 'PosyanduMainController@index');
-// Route::get( 'download', 'PosyanduDownloadController@index');
-// Route::post( 'posyandu', 'PosyanduLoginController@login' );
-// Route::get( 'posyandu', 'PosyanduLoginController@index' );
-// Route::get( 'posyandu/logout', 'PosyanduLoginController@logout' );
-
-// Route::get( 'panduan', function () {
-//   $file= public_path(). "\dist\apk\Panduan.apk";
-//   return response()->download( $file );
-// } );
-
-// Route::get( 'mobile', function () {
-//   $file= public_path(). "\dist\apk\Posyandu.apk";
-//   return response()->download( $file );
-// } );
-
-// Route::group( ['middleware' => 'login'], function() {
-//   Route::post( 'posyandu/balita/find', 'PosyanduBalitaController@find' );
-//   Route::post( 'posyandu/penimbangan/find', 'PosyanduPenimbanganController@find' );
-//   Route::post( 'posyandu/jawabkeluhan', 'PosyanduKeluhanController@comment' );
-//   Route::post( 'posyandu/hapusjawabkeluhan', 'PosyanduKeluhanController@delete_comment' );
-
-//   Route::resource( 'posyandu/data', 'PosyanduDataController' );
-//   Route::resource( 'posyandu/ibu', 'PosyanduIbuController' );
-//   Route::resource( 'posyandu/imunisasi', 'PosyanduImunisasiController' );
-//   Route::resource( 'posyandu/jeniskas', 'PosyanduJenisKasController' );
-//   Route::resource( 'posyandu/pengumuman', 'PosyanduPengumumanController' );
-//   Route::resource( 'posyandu/balita', 'PosyanduBalitaController' );
-//   Route::resource( 'posyandu/pengurus', 'PosyanduPengurusController' );
-//   Route::resource( 'posyandu/kas', 'PosyanduKasController' );
-//   Route::resource( 'posyandu/keluhan', 'PosyanduKeluhanController' );
-//   Route::resource( 'posyandu/absen', 'PosyanduAbsenController' );
-//   Route::resource( 'posyandu/kapsul', 'PosyanduKapsulController' );
-//   Route::resource( 'posyandu/penimbangan', 'PosyanduPenimbanganController' );
-//   Route::resource( 'posyandu/beriimunisasi', 'PosyanduBeriImunisasiController' );
-//   Route::resource( 'posyandu/users', 'PosyanduUserController' );
-//   Route::resource( 'posyandu/provinsi', 'PosyanduProvinsiController' );
-//   Route::resource( 'posyandu/kabupaten', 'PosyanduKabupatenController' );
-//   Route::resource( 'posyandu/kecamatan', 'PosyanduKecamatanController' );
-//   Route::resource( 'posyandu/kelurahan', 'PosyanduKelurahanController' );
-//   Route::resource( 'posyandu/akunibu', 'PosyanduAkunIbuController' );
-// } );
+/*
+ * Routing Mobile...
+ */
+// PKK
+Route::get( 'mobile-pkk/login', ['uses' => 'PkkMobileController@login'] );
+Route::get( 'mobile-pkk/verify-token', ['uses' => 'PkkMobileController@verifyToken'] );
+Route::get( 'mobile-pkk/year-contribution', ['uses' => 'PkkMobileController@yearContribution'] );
+Route::get( 'mobile-pkk/fill-contribution', ['uses' => 'PkkMobileController@fillContribution'] );
+Route::get( 'mobile-pkk/year-wiggler', ['uses' => 'PkkMobileController@yearWiggler'] );
+Route::get( 'mobile-pkk/fill-wiggler', ['uses' => 'PkkMobileController@fillWiggler'] );
+Route::get( 'mobile-pkk/save-wiggler', ['uses' => 'PkkMobileController@saveWiggler'] );
+Route::get( 'mobile-pkk/report-list', ['uses' => 'PkkMobileController@reportList'] );
+Route::get( 'mobile-pkk/get-report', ['uses' => 'PkkMobileController@getReport'] );
+Route::get( 'mobile-pkk/get-announcement', ['uses' => 'PkkMobileController@getAnnouncement'] );
+Route::get( 'mobile-pkk/save-complaint', ['uses' => 'PkkMobileController@saveComplaint'] );
+Route::get( 'mobile-pkk/get-complaint', ['uses' => 'PkkMobileController@getComplaint'] );
+Route::get( 'mobile-pkk/get-comment', ['uses' => 'PkkMobileController@getComment'] );
+Route::get( 'mobile-pkk/save-comment', ['uses' => 'PkkMobileController@saveComment'] );
+Route::get( 'mobile-pkk/change-pass', ['uses' => 'PkkMobileController@changePass'] );
