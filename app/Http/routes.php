@@ -358,3 +358,7 @@ Route::get( 'mobile-pkk/get-complaint', ['uses' => 'PkkMobileController@getCompl
 Route::get( 'mobile-pkk/get-comment', ['uses' => 'PkkMobileController@getComment'] );
 Route::get( 'mobile-pkk/save-comment', ['uses' => 'PkkMobileController@saveComment'] );
 Route::get( 'mobile-pkk/change-pass', ['uses' => 'PkkMobileController@changePass'] );
+
+// Posyandu
+Route::get( 'mobile-posyandu/login', ['uses' => 'PosyanduMobileController@login'] );
+Route::get( 'mobile-posyandu/verify-token', ['uses' => 'PosyanduMobileController@verifyToken'] );

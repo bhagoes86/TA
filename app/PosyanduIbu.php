@@ -16,7 +16,8 @@ class PosyanduIbu extends Model
     'telp',
     'kb',
     'tanggal_lahir',
-    'password_mobile'
+    'password_mobile',
+    'token'
   ];
 
   public function posyandu() {

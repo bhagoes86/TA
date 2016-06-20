@@ -38,6 +38,7 @@ class CreatePkkTables extends Migration
             $table->string( 'alamat' );
             $table->string( 'telp', 20 );
             $table->text( 'password_mobile' );
+            $table->text( 'token' );
             $table->timestamps();
         });
         Schema::create( 'pkk_periode', function ( Blueprint $table ) {
@@ -107,7 +108,6 @@ class CreatePkkTables extends Migration
             $table->increments( 'id' );
             $table->integer( 'id_ibu' )->unsigned();
             $table->integer( 'id_jenis_kas' )->unsigned();
-            $table->integer( 'id_pkk' )->unsigned();
             $table->integer( 'nominal' );
             $table->timestamps();
         });
