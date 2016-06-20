@@ -57,12 +57,6 @@
 
       <div class="row text-center">
         <p>- PILIHAN LAIN -</p>
-        <div class="col-xs-6">
-          <a href="{!! route( 'pkk.password.email' ) !!}" class="btn btn-block btn-warning">Lupa kata sandi</a><br>
-        </div>
-        <div class="col-xs-6">
-          <a href="{!! route( 'pkk.register' ) !!}" class="btn btn-block btn-info">Daftar PKK baru</a>
-        </div>
         <div class="col-xs-12">
           <a href="{!! route( 'home' ) !!}" class="btn btn-block btn-success">Ke menu utama</a><br>
         </div>

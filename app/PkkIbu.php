@@ -15,6 +15,7 @@ class PkkIbu extends Model
     'alamat',
     'telp',
     'password_mobile',
+    'token',
   ];
 
   public function pkk() {

@@ -14,7 +14,7 @@
 
 @section( 'adminlte-menu-system' )
   <li class="treeview">
-    <a href="{!! route( 'pkk.admin.users' ) !!}">
+    <a href="{!! route( 'pkk.admin.users', [0, 0, 0, 0] ) !!}">
       <i class="fa fa-users"></i>
       <span>Manajemen Akun Pengguna</span>
     </a>

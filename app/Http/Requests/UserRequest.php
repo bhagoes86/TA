@@ -26,7 +26,8 @@ class UserRequest extends Request
         return [
             'username' => 'required|min:4',
             'password' => 'required|min:4',
-            're_password' => 'required|same:password',
+            'rw' => 'numeric',
+            'rt' => 'numeric',
         ];
     }
 
@@ -40,10 +41,10 @@ class UserRequest extends Request
         return [
             'username.required' => "Kolom <b>username</b> harus terisi",
             'username.min' => "Username <b>minimal</b> terdiri dari 4 karakter",
-            'password.required' => "Kolom <b>kata sandi baru</b> harus terisi",
-            're_password.required' => "Kolom <b>konfirmasi kata sandi baru</b> harus terisi",
+            'password.required' => "Kolom <b>kata sandi</b> harus terisi",
             'password.min' => "Kata sandi <b>minimal</b> terdiri dari 4 karakter",
-            're_password.same' => "Kolom <b>konfirmasi kata sandi baru</b> tidak sesuai",
+            'rw.numeric' => "Nomor RW harus berupa angka",
+            'rt.numeric' => "Nomor RT harus berupa angka",
         ];
     }
 }

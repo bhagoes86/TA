@@ -28,8 +28,6 @@ class PkkIbuRequest extends Request
             'nama'              => 'required|max:30',
             'alamat'            => 'required|max:255',
             'telp'              => 'required|numeric',
-            'password_mobile'   => 'min:4',
-            're_password'       => 'same:password_mobile',
         ];
     }
 
@@ -50,8 +48,6 @@ class PkkIbuRequest extends Request
             'alamat.max'            => "Alamat <b>maksimal</b> terdiri dari 255 karakter. Hubungi pengurus atau administrator apabila bermasalah.",
             'telp.required'         => "Kolom <b>nomor telepon</b> harus terisi",
             'telp.numeric'          => "Nomor telepon <b>hanya</b> terdiri dari angka, tanpa spasi, tanda minus (-), atau karakter lainnya. Hubungi pengurus atau administrator apabila bermasalah.",
-            'password_mobile.min'   => "Kata sandi <b>minimal</b> terdiri dari 4 karakter",
-            're_password.same'      => "Kolom <b>konfirmasi kata sandi baru</b> tidak sesuai",
         ];
     }
 }

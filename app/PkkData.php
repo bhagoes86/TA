@@ -22,10 +22,6 @@ class PkkData extends Model
     return $this->hasMany( 'App\PkkJabatan', 'id_pkk' );
   }
 
-  public function kas() {
-    return $this->hasMany( 'App\PkkKas', 'id_pkk' );
-  }
-
   public function ibu() {
     return $this->hasMany( 'App\PkkIbu', 'id_pkk' );
   }
@@ -92,7 +88,6 @@ class PkkData extends Model
 
     static::deleted( function( $data ) {
       $data->jabatan()->delete();
-      $data->kas()->delete();
       $data->ibu()->delete();
       $data->periode()->delete();
       $data->jeniskas()->delete();
