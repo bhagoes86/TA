@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Requests\PosyanduKasRequest;
+use App\Http\Controllers\Controller;
+
 use Auth;
 use Session;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+
 use App\PosyanduJenisKas;
 use App\PosyanduKas;
 use App\PosyanduData;
@@ -46,9 +50,9 @@ class PosyanduKasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduKasRequest $request)
     {
-        $kas = Request::all();
+        $kas = $request->all();
         PosyanduKas::create( $kas );
         Session::flash( 'success', "Data kas baru berhasil ditambahkan!" );
         return redirect()->route( 'posyandu.kas' );
@@ -91,9 +95,9 @@ class PosyanduKasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduKasRequest $request, $id)
     {
-        $kasUpdate = Request::all();
+        $kasUpdate = $request->all();
         $kas = PosyanduKas::find( $id );
         $kas->update( $kasUpdate );
         Session::flash( 'success', "Data kas berhasil diperbarui!" );

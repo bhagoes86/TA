@@ -107,7 +107,7 @@
                     <tr>
                       <td>{!! ++$a !!}</td>
                       <td>{!! $timbang->umur !!} bulan</td>
-                      <td>{!! $timbang->created_at !!}</td>
+                      <td>{!! $timbang->tanggal !!}</td>
                       <td>{!! $timbang->berat !!} cm</td>
                       <td>{!! $timbang->tinggi !!} kg</td>
                       <td>{!! $timbang->asi !!}</td>
@@ -160,7 +160,7 @@
                       <td>{!! ++$a !!}</td>
                       <td>{!! $imunisasi->jenis !!}</td>
                       <td>{!! $imunisasi->umur !!} bulan</td>
-                      <td>{!! $imunisasi->created_at !!}</td>
+                      <td>{!! $imunisasi->tanggal !!}</td>
                       <td>
                         <div class="btn-group btn-group-justified">
                           <div class="btn-group" role="group">
@@ -210,7 +210,7 @@
                       <td>{!! ++$a !!}</td>
                       <td>{!! $kaps->umur !!} bulan</td>
                       <td>{!! $kaps->jenis !!}</td>
-                      <td>{!! $kaps->created_at !!}</td>
+                      <td>{!! $kaps->tanggal !!}</td>
                       <td>
                         <div class="btn-group btn-group-justified">
                           <div class="btn-group" role="group">

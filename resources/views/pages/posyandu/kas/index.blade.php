@@ -44,7 +44,7 @@
                     <tr>
                       <td>{!! ++$a !!}</td>
                       <td>{!! $kasposyandu->nama_jenis !!}</td>
-                      <td>{!! $kasposyandu->created_at !!}</td>
+                      <td>{!! $kasposyandu->tanggal !!}</td>
                       <td>{!! $kasposyandu->nominal !!}</td>
                       <td>{!! $kasposyandu->keterangan !!}</td>
                       <td>

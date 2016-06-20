@@ -11,7 +11,8 @@ class PosyanduKapsul extends Model
   protected $fillable = [
     'id_balita',
     'umur',
-    'jenis'
+    'tanggal',
+    'jenis',
   ];
 
   public function balita() {

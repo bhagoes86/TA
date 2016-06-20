@@ -49,7 +49,7 @@
       <div class="epkk-navigation">
         <div class="col col-md-6 col-xs-12">
           <div class="epkk-nav-btn">
-            <a href="{!! route( 'pkk' ) !!}" class="epkk-nav-btn-header">Sistem PKK Online</a>
+            <a href="{!! route( 'pkk' ) !!}" class="epkk-nav-btn-header">Sistem PKK</a>
             <p>Sistem integrasi PKK nasional</p>
             <br><br>
             <a href="{!! route( 'pkk' ) !!}" class="btn btn-primary btn-lg">Masuk ke dalam sistem</a>
@@ -61,10 +61,10 @@
         </div>
         <div class="col col-md-6 col-xs-12">
           <div class="epkk-nav-btn">
-            <a href="{!! route( 'posyandu' ) !!}" class="epkk-nav-btn-header">Sistem Posyandu Online</a>
-            <p>Sistem integrasi Posyandu dan kesehatan balita tingkat nasional</p>
+            <a href="{!! route( 'posyandu' ) !!}" class="epkk-nav-btn-header">Sistem Posyandu</a>
+            <p>Sistem integrasi Posyandu nasional</p>
             <br><br>
-            <a href="{!! route( 'posyandu' ) !!}" class="btn btn-primary btn-lg">Masuk ke dalam sistem</a>
+            <a href="{!! route( 'posyandu.login' ) !!}" class="btn btn-primary btn-lg">Masuk ke dalam sistem</a>
             <hr>
             <h3>Tersedia dalam aplikasi mobile</h3>
             <p>Dikembangkan untuk seluruh ibu agar dapat mengontrol kesehatan balita melalui KMS dan berinteraksi dengan posyandu daerahnya</p>

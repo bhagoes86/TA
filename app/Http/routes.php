@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -19,6 +20,8 @@
 Route::get( '/', ['as' => 'home', 'uses' => function () {
     return view( 'pages.home.index' );
 }] );
+
+
 
 /*
  * Routing Halaman PKK...
@@ -120,16 +123,18 @@ Route::group( ['middleware' => 'pkk-admin-login'], function() {
 } );
 
 
-/*
- * Routing Halaman POSYANDU...
- */
+/*------------------------------\
+|                               |
+|   Routing Halaman POSYANDU    |
+|                               |
+\------------------------------*/
 // LOGIN
 Route::get( 'posyandu/login', ['as' => 'posyandu.login', 'uses' => 'PosyanduAuthController@index'] );
 Route::post( 'posyandu/login', ['as' => 'posyandu.login.post', 'uses' => 'PosyanduAuthController@login'] );
 Route::get( 'posyandu/logout', ['as' => 'posyandu.logout', 'uses' => 'PosyanduAuthController@logout'] );
 
 // REGISTRATION
-Route::match( ['get', 'post'], 'posyandu/register', ['as' => 'posyandu.register', 'uses' => 'PosyanduAuthController@register'] );
+// Route::match( ['get', 'post'], 'posyandu/register', ['as' => 'posyandu.register', 'uses' => 'PosyanduAuthController@register'] );
 
 // FORGET PASSWORD
 Route::get( 'posyandu/password/email', ['as' => 'posyandu.password.email', 'uses' => 'Auth\PasswordController@getEmail'] );
@@ -137,7 +142,7 @@ Route::post( 'posyandu/password/email', ['as' => 'posyandu.password.email.post',
 Route::get( 'posyandu/password/reset/{token}', ['as' => 'posyandu.password.reset', 'uses' => 'Auth\PasswordController@getReset'] );
 Route::post( 'posyandu/password/reset', ['as' => 'posyandu.password.reset.post', 'uses' => 'Auth\PasswordController@postReset'] );
 
-// UMUM
+// UMUM PENGURUS
 Route::group( ['middleware' => 'posyandu-login'], function() {
   // DASHBOARD
   Route::get( 'posyandu', ['as' => 'posyandu', 'uses' => 'PosyanduDashboardController@index'] );
@@ -146,45 +151,31 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
   Route::get( 'posyandu/ibu', ['as' => 'posyandu.ibu', 'uses' => 'PosyanduIbuController@index'] );
   Route::get( 'posyandu/ibu/create', ['as' => 'posyandu.ibu.create', 'uses' => 'PosyanduIbuController@create'] );
   Route::post( 'posyandu/ibu/store', ['as' => 'posyandu.ibu.store', 'uses' => 'PosyanduIbuController@store'] );
-  Route::get( 'posyandu/ibu/show/{id}', ['as' => 'posyandu.ibu.show', 'uses' => 'PosyanduIbuController@show'] );
-  Route::get( 'posyandu/ibu/edit/{id}', ['as' => 'posyandu.ibu.edit', 'uses' => 'PosyanduIbuController@edit'] );
-  Route::post( 'posyandu/ibu/update/{id}', ['as' => 'posyandu.ibu.update', 'uses' => 'PosyanduIbuController@update'] );
   Route::get( 'posyandu/ibu/delete{id}', ['as' => 'posyandu.ibu.delete', 'uses' => 'PosyanduIbuController@destroy'] );
-  Route::get( 'posyandu/akun', ['as' => 'posyandu.akun', 'uses' => 'PosyanduIbuController@index_akun'] );
+  // Route::get( 'posyandu/akun', ['as' => 'posyandu.akun', 'uses' => 'PosyanduIbuController@index_akun'] );
+  Route::post( 'posyandu/ibu/update/{id}', ['as' => 'posyandu.ibu.update', 'uses' => 'PosyanduIbuController@update'] );
 
   // BALITA
   Route::get( 'posyandu/balita', ['as' => 'posyandu.balita', 'uses' => 'PosyanduBalitaController@index'] );
-  Route::get( 'posyandu/balita/create/{id}', ['as' => 'posyandu.balita.create', 'uses' => 'PosyanduBalitaController@create'] );
   Route::post( 'posyandu/balita/store', ['as' => 'posyandu.balita.store', 'uses' => 'PosyanduBalitaController@store'] );
-  Route::get( 'posyandu/balita/show/{id}', ['as' => 'posyandu.balita.show', 'uses' => 'PosyanduBalitaController@show'] );
-  Route::get( 'posyandu/balita/edit/{id}', ['as' => 'posyandu.balita.edit', 'uses' => 'PosyanduBalitaController@edit'] );
-  Route::post( 'posyandu/balita/update/{id}', ['as' => 'posyandu.balita.update', 'uses' => 'PosyanduBalitaController@update'] );
   Route::get( 'posyandu/balita/delete{id}', ['as' => 'posyandu.balita.delete', 'uses' => 'PosyanduBalitaController@destroy'] );
-
+  Route::post( 'posyandu/balita/update/{id}', ['as' => 'posyandu.balita.update', 'uses' => 'PosyanduBalitaController@update'] );
+  
   // PENIMBANGAN
   Route::get( 'posyandu/penimbangan', ['as' => 'posyandu.penimbangan', 'uses' => 'PosyanduPenimbanganController@index'] );
-  Route::get( 'posyandu/penimbangan/create/{id}', ['as' => 'posyandu.penimbangan.create', 'uses' => 'PosyanduPenimbanganController@create'] );
   Route::post( 'posyandu/penimbangan/store', ['as' => 'posyandu.penimbangan.store', 'uses' => 'PosyanduPenimbanganController@store'] );
-  Route::get( 'posyandu/penimbangan/show/{id}', ['as' => 'posyandu.penimbangan.show', 'uses' => 'PosyanduPenimbanganController@show'] );
-  Route::get( 'posyandu/penimbangan/edit/{id}', ['as' => 'posyandu.penimbangan.edit', 'uses' => 'PosyanduPenimbanganController@edit'] );
   Route::post( 'posyandu/penimbangan/update/{id}', ['as' => 'posyandu.penimbangan.update', 'uses' => 'PosyanduPenimbanganController@update'] );
   Route::get( 'posyandu/penimbangan/delete{id}', ['as' => 'posyandu.penimbangan.delete', 'uses' => 'PosyanduPenimbanganController@destroy'] );
-
+  
   // BERI IMUNISASI
   Route::get( 'posyandu/beriimunisasi', ['as' => 'posyandu.beriimunisasi', 'uses' => 'PosyanduBeriImunisasiController@index'] );
-  Route::get( 'posyandu/beriimunisasi/create/{id}', ['as' => 'posyandu.beriimunisasi.create', 'uses' => 'PosyanduBeriImunisasiController@create'] );
   Route::post( 'posyandu/beriimunisasi/store', ['as' => 'posyandu.beriimunisasi.store', 'uses' => 'PosyanduBeriImunisasiController@store'] );
-  Route::get( 'posyandu/beriimunisasi/show/{id}', ['as' => 'posyandu.beriimunisasi.show', 'uses' => 'PosyanduBeriImunisasiController@show'] );
-  Route::get( 'posyandu/beriimunisasi/edit/{id}', ['as' => 'posyandu.beriimunisasi.edit', 'uses' => 'PosyanduBeriImunisasiController@edit'] );
   Route::post( 'posyandu/beriimunisasi/update/{id}', ['as' => 'posyandu.beriimunisasi.update', 'uses' => 'PosyanduBeriImunisasiController@update'] );
   Route::get( 'posyandu/beriimunisasi/delete{id}', ['as' => 'posyandu.beriimunisasi.delete', 'uses' => 'PosyanduBeriImunisasiController@destroy'] );
-
+  
   // KAPSUL
   Route::get( 'posyandu/kapsul', ['as' => 'posyandu.kapsul', 'uses' => 'PosyanduKapsulController@index'] );
-  Route::get( 'posyandu/kapsul/create/{id}', ['as' => 'posyandu.kapsul.create', 'uses' => 'PosyanduKapsulController@create'] );
   Route::post( 'posyandu/kapsul/store', ['as' => 'posyandu.kapsul.store', 'uses' => 'PosyanduKapsulController@store'] );
-  Route::get( 'posyandu/kapsul/show/{id}', ['as' => 'posyandu.kapsul.show', 'uses' => 'PosyanduKapsulController@show'] );
-  Route::get( 'posyandu/kapsul/edit/{id}', ['as' => 'posyandu.kapsul.edit', 'uses' => 'PosyanduKapsulController@edit'] );
   Route::post( 'posyandu/kapsul/update/{id}', ['as' => 'posyandu.kapsul.update', 'uses' => 'PosyanduKapsulController@update'] );
   Route::get( 'posyandu/kapsul/delete{id}', ['as' => 'posyandu.kapsul.delete', 'uses' => 'PosyanduKapsulController@destroy'] );
 
@@ -192,8 +183,6 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
   Route::get( 'posyandu/pengurus', ['as' => 'posyandu.pengurus', 'uses' => 'PosyanduPengurusController@index'] );
   Route::get( 'posyandu/pengurus/create', ['as' => 'posyandu.pengurus.create', 'uses' => 'PosyanduPengurusController@create'] );
   Route::post( 'posyandu/pengurus/store', ['as' => 'posyandu.pengurus.store', 'uses' => 'PosyanduPengurusController@store'] );
-  Route::get( 'posyandu/pengurus/show/{id}', ['as' => 'posyandu.pengurus.show', 'uses' => 'PosyanduPengurusController@show'] );
-  Route::get( 'posyandu/pengurus/edit/{id}', ['as' => 'posyandu.pengurus.edit', 'uses' => 'PosyanduPengurusController@edit'] );
   Route::post( 'posyandu/pengurus/update/{id}', ['as' => 'posyandu.pengurus.update', 'uses' => 'PosyanduPengurusController@update'] );
   Route::get( 'posyandu/pengurus/delete{id}', ['as' => 'posyandu.pengurus.delete', 'uses' => 'PosyanduPengurusController@destroy'] );
 
@@ -201,8 +190,6 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
   Route::get( 'posyandu/kas', ['as' => 'posyandu.kas', 'uses' => 'PosyanduKasController@index'] );
   Route::get( 'posyandu/kas/create', ['as' => 'posyandu.kas.create', 'uses' => 'PosyanduKasController@create'] );
   Route::post( 'posyandu/kas/store', ['as' => 'posyandu.kas.store', 'uses' => 'PosyanduKasController@store'] );
-  Route::get( 'posyandu/kas/show/{id}', ['as' => 'posyandu.kas.show', 'uses' => 'PosyanduKasController@show'] );
-  Route::get( 'posyandu/kas/edit/{id}', ['as' => 'posyandu.kas.edit', 'uses' => 'PosyanduKasController@edit'] );
   Route::post( 'posyandu/kas/update/{id}', ['as' => 'posyandu.kas.update', 'uses' => 'PosyanduKasController@update'] );
   Route::get( 'posyandu/kas/delete{id}', ['as' => 'posyandu.kas.delete', 'uses' => 'PosyanduKasController@destroy'] );
   
@@ -210,8 +197,6 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
   Route::get( 'posyandu/absen', ['as' => 'posyandu.absen', 'uses' => 'PosyanduAbsenController@index'] );
   Route::get( 'posyandu/absen/create', ['as' => 'posyandu.absen.create', 'uses' => 'PosyanduAbsenController@create'] );
   Route::post( 'posyandu/absen/store', ['as' => 'posyandu.absen.store', 'uses' => 'PosyanduAbsenController@store'] );
-  Route::get( 'posyandu/absen/show/{id}', ['as' => 'posyandu.absen.show', 'uses' => 'PosyanduAbsenController@show'] );
-  Route::get( 'posyandu/absen/edit/{id}', ['as' => 'posyandu.absen.edit', 'uses' => 'PosyanduAbsenController@edit'] );
   Route::post( 'posyandu/absen/update/{id}', ['as' => 'posyandu.absen.update', 'uses' => 'PosyanduAbsenController@update'] );
   Route::get( 'posyandu/absen/delete{id}', ['as' => 'posyandu.absen.delete', 'uses' => 'PosyanduAbsenController@destroy'] );
 
@@ -222,7 +207,6 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
 
   // KELUHAN
   Route::get( 'posyandu/keluhan', ['as' => 'posyandu.keluhan', 'uses' => 'PosyanduKeluhanController@index'] );
-  Route::get( 'posyandu/keluhan/show/{id}', ['as' => 'posyandu.keluhan.show', 'uses' => 'PosyanduKeluhanController@show'] );
   Route::get( 'posyandu/keluhan/delete{id}', ['as' => 'posyandu.keluhan.delete', 'uses' => 'PosyanduKeluhanController@destroy'] );
   Route::post( 'posyandu/jawabkeluhan/create/{id}', ['as' => 'posyandu.jawabkeluhan.create', 'uses' => 'PosyanduKeluhanController@comment'] );
   Route::get( 'posyandu/jawabkeluhan/delete{id}', ['as' => 'posyandu.jawabkeluhan.delete', 'uses' => 'PosyandukeluhanController@delete_comment'] );
@@ -238,10 +222,9 @@ Route::group( ['middleware' => 'posyandu-login'], function() {
 
 });
 
-Route::match( ['get', 'post'], 'posyandu/register', ['as' => 'posyandu.register', 'uses' => 'PosyanduDataController@register'] );
-
 // ADMIN
 Route::group( ['middleware' => 'posyandu-admin-login'], function() {
+
   // DASHBOARD
   Route::get( 'posyandu-admin', ['as' => 'posyandu.admin', 'uses' => 'PosyanduDashboardController@index' ] );
   
@@ -266,6 +249,12 @@ Route::group( ['middleware' => 'posyandu-admin-login'], function() {
   Route::get( 'posyandu-admin/jenisimunisasi/edit/{id}', ['as' => 'posyandu.jenisimunisasi.edit', 'uses' => 'PosyanduImunisasiController@edit'] );
   Route::post( 'posyandu-admin/jenisimunisasi/update/{id}', ['as' => 'posyandu.jenisimunisasi.update', 'uses' => 'PosyanduImunisasiController@update'] );
   Route::get( 'posyandu-admin/jenisimunisasi/delete{id}', ['as' => 'posyandu.jenisimunisasi.delete', 'uses' => 'PosyanduImunisasiController@destroy'] );
+    
+    Route::get( 'posyandu-admin/backup', ['as' => 'backup', 'uses' => function(){
+      exec("C:/xampp/mysql/bin/mysqldump -uroot -hlocalhost sim_stranas > E:\sim_stranas.". date("Y-m-d_H-i-s") . ".sql");
+      Session::flash( 'success', "Basis data berhasil di <i>backup</i>!" );
+      return redirect()->back();
+  }] );
   
   // PROVINSI
   Route::get( 'posyandu-admin/provinsi', ['as' => 'posyandu.provinsi', 'uses' => 'PosyanduProvinsiController@index'] );
@@ -302,8 +291,47 @@ Route::group( ['middleware' => 'posyandu-admin-login'], function() {
 
 } );
 
+// KHUSUS PENGURUS
+Route::group( ['middleware' => 'posyandu-login-khusus'], function() {
+  // IBU
+  Route::get( 'posyandu/ibu/show/{id}', ['as' => 'posyandu.ibu.show', 'uses' => 'PosyanduIbuController@show'] );
+  Route::get( 'posyandu/ibu/edit/{id}', ['as' => 'posyandu.ibu.edit', 'uses' => 'PosyanduIbuController@edit'] );
+  
+  // BALITA
+  Route::get( 'posyandu/balita/create/{id}', ['as' => 'posyandu.balita.create', 'uses' => 'PosyanduBalitaController@create'] );
+  Route::get( 'posyandu/balita/show/{id}', ['as' => 'posyandu.balita.show', 'uses' => 'PosyanduBalitaController@show'] );
+  Route::get( 'posyandu/balita/edit/{id}', ['as' => 'posyandu.balita.edit', 'uses' => 'PosyanduBalitaController@edit'] );
 
+  // PENIMBANGAN
+  Route::get( 'posyandu/penimbangan/create/{id}', ['as' => 'posyandu.penimbangan.create', 'uses' => 'PosyanduPenimbanganController@create'] );
+  // Route::get( 'posyandu/penimbangan/show/{id}', ['as' => 'posyandu.penimbangan.show', 'uses' => 'PosyanduPenimbanganController@show'] );
+  Route::get( 'posyandu/penimbangan/edit/{id}', ['as' => 'posyandu.penimbangan.edit', 'uses' => 'PosyanduPenimbanganController@edit'] );
 
+  // IMUNISASI
+  Route::get( 'posyandu/beriimunisasi/create/{id}', ['as' => 'posyandu.beriimunisasi.create', 'uses' => 'PosyanduBeriImunisasiController@create'] );
+  // Route::get( 'posyandu/beriimunisasi/show/{id}', ['as' => 'posyandu.beriimunisasi.show', 'uses' => 'PosyanduBeriImunisasiController@show'] );
+  Route::get( 'posyandu/beriimunisasi/edit/{id}', ['as' => 'posyandu.beriimunisasi.edit', 'uses' => 'PosyanduBeriImunisasiController@edit'] );
+
+  // KAPSUL
+  Route::get( 'posyandu/kapsul/create/{id}', ['as' => 'posyandu.kapsul.create', 'uses' => 'PosyanduKapsulController@create'] );
+  // Route::get( 'posyandu/kapsul/show/{id}', ['as' => 'posyandu.kapsul.show', 'uses' => 'PosyanduKapsulController@show'] );
+  Route::get( 'posyandu/kapsul/edit/{id}', ['as' => 'posyandu.kapsul.edit', 'uses' => 'PosyanduKapsulController@edit'] );
+
+  // PENGURUS
+  // Route::get( 'posyandu/pengurus/show/{id}', ['as' => 'posyandu.pengurus.show', 'uses' => 'PosyanduPengurusController@show'] );
+  Route::get( 'posyandu/pengurus/edit/{id}', ['as' => 'posyandu.pengurus.edit', 'uses' => 'PosyanduPengurusController@edit'] );
+
+  // KAS
+  // Route::get( 'posyandu/kas/show/{id}', ['as' => 'posyandu.kas.show', 'uses' => 'PosyanduKasController@show'] );
+  Route::get( 'posyandu/kas/edit/{id}', ['as' => 'posyandu.kas.edit', 'uses' => 'PosyanduKasController@edit'] );
+ 
+  // ABSEN
+  // Route::get( 'posyandu/absen/show/{id}', ['as' => 'posyandu.absen.show', 'uses' => 'PosyanduAbsenController@show'] );
+  Route::get( 'posyandu/absen/edit/{id}', ['as' => 'posyandu.absen.edit', 'uses' => 'PosyanduAbsenController@edit'] );
+  
+  // KELUHAN
+  Route::get( 'posyandu/keluhan/show/{id}', ['as' => 'posyandu.keluhan.show', 'uses' => 'PosyanduKeluhanController@show'] );
+} );
 
 
 

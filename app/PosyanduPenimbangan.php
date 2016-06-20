@@ -12,6 +12,7 @@ class PosyanduPenimbangan extends Model
     'id_balita',
     'umur',
     'berat',
+    'tanggal',
     'tinggi',
     'ntob',
     'asi'

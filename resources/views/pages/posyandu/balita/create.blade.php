@@ -36,6 +36,7 @@
         <div class="box-header with-border">
           <h3 class="box-title"><i class="glyphicon glyphicon-user"></i> Data Balita</h3>
         </div>
+
           {!! BootForm::open()->action( route( 'posyandu.balita.store' ))!!}
           <div class="box-body">
               <div class="hidden"> 

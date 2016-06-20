@@ -23,10 +23,10 @@
 @section( 'body-class', 'class="hold-transition login-page"' )
 
 @section( 'content' )
-  <div class="login-box">
+  <div class="login-box" style="margin-top: 25px">
     <div class="login-logo">
       <a href="{!! route( 'posyandu' ) !!}">
-        <img src="/img/logo-posyandu.jpg" style="max-height: 300px; width: auto; margin-bottom: 20px" class="img-responsive center-block" alt="Responsive image">
+        <img src="../img/logo-posyandu.png" style="max-height: 200px; width: auto; margin-bottom: 20px" class="img-responsive center-block" alt="Responsive image">
       </a>
     </div>
     <div class="login-box-body">
@@ -41,28 +41,14 @@
           {!! Form::password( 'password' )->addClass( 'form-control' )->placeholder( 'Masukkan kata sandi' ) !!}
           <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
-        <div class="row">
-          <div class="col-xs-8">
-            <div class="checkbox icheck">
-              <label>
-                {!! Form::checkbox( 'remember_me' ) !!} Ingat saya
-              </label>
-            </div>
-          </div>
-          <div class="col-xs-4">
+        <div class="row text-center">
+          <div class="col-xs-12">
             {!! Form::submit( 'Masuk' )->addClass( 'btn btn-primary btn-block btn-flat' ) !!}
           </div>
         </div>
       {!! BootForm::close() !!}
-
+      <br>
       <div class="row text-center">
-        <!-- <p>- PILIHAN LAIN -</p> -->
-        <!-- <div class="col-xs-6">
-          <a href="{!! route( 'posyandu.password.email' ) !!}" class="btn btn-block btn-warning">Lupa kata sandi</a><br>
-        </div>
-        <div class="col-xs-6">
-          <a href="{!! route( 'posyandu.register' ) !!}" class="btn btn-block btn-info">Daftar PKK baru</a>
-        </div> -->
         <div class="col-xs-12">
           <a href="{!! route( 'home' ) !!}" class="btn btn-block btn-success">Ke menu utama</a><br>
         </div>

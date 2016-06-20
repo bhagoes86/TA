@@ -19,11 +19,7 @@ class PosyanduLoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        /*if ( Auth::check() && $request->user()->roles()->first()->id == Role::where( 'slug', 'posyandu' )->first()->id ) {
-            return $next( $request );
-        }*/
-
-        if ( Auth::check() ) {
+        if ( Auth::check() && $request->user()->roles()->first()->id == Role::where( 'slug', 'posyandu' )->first()->id ) {
             return $next( $request );
         }
 

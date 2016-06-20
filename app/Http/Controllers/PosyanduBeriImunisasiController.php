@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
-use Session;
-use Auth;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Requests\PosyanduBeriImunisasiRequest;
 use App\Http\Controllers\Controller;
+
+use Auth;
+use Session;
+
 use App\PosyanduBeriImunisasi;
 use App\PosyanduData;
 use App\PosyanduBalita;
@@ -49,18 +54,26 @@ class PosyanduBeriImunisasiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduBeriImunisasiRequest $request)
     {
-        $beriimunisasi = Request::all();
-        if($beriimunisasi['id_imunisasi'] == NULL)
+        $beriimunisasi = $request->all();
+        $periksaImunisasi = PosyanduBeriImunisasi::select( 'id' )
+                        ->where( 'posyandu_pemberian_imunisasi.id_balita' , $beriimunisasi['id_balita'])
+                        ->where( 'posyandu_pemberian_imunisasi.id_imunisasi' , $beriimunisasi['id_imunisasi'] )
+                        ->get()->first();
+
+        if($periksaImunisasi == NULL)
         {
-            Session::flash( 'warning', "Data jenis imunisasi harus diisi!" );
-            return redirect()->back();
+            PosyanduBeriImunisasi::create( $beriimunisasi );
+            $beriimunisasi = PosyanduBeriImunisasi::orderBy( 'created_at' , 'desc')->get()->first();
+            Session::flash( 'success', "Data pemberian imunisasi baru berhasil ditambahkan!" );
+            return redirect()->route( 'posyandu.balita.show' , $beriimunisasi['id_balita'] );
+        }        
+        else
+        {
+            Session::flash( 'warning', "Data pada jenis imunisasi yang dipilih sudah ada!" );
+            return redirect()->back()->withInput();  
         }
-        PosyanduBeriImunisasi::create( $beriimunisasi );
-        $imunisasi = PosyanduBeriImunisasi::orderBy( 'created_at' , 'desc')->get()->first();
-        Session::flash( 'success', "Data pemberian imunisasi baru berhasil ditambahkan!" );
-        return redirect()->route( 'posyandu.balita.show' , $imunisasi['id_balita'] );
     }
 
     /**
@@ -96,19 +109,28 @@ class PosyanduBeriImunisasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduBeriImunisasiRequest $request, $id)
     {
-        $beriimunisasiUpdate = Request::all();
-        if($beriimunisasiUpdate['id_imunisasi'] == NULL)
+        $beriimunisasiUpdate = $request->all();
+       
+        $periksaImunisasi = PosyanduBeriImunisasi::select( 'id' )
+                        ->where( 'posyandu_pemberian_imunisasi.id_balita' , $beriimunisasiUpdate['id_balita'])
+                        ->where( 'posyandu_pemberian_imunisasi.id_imunisasi' , $beriimunisasiUpdate['id_imunisasi'] )
+                        ->get()->first();
+                        
+        if($periksaImunisasi == NULL || $periksaImunisasi['id'] == $id)
         {
-            Session::flash( 'warning', "Data jenis imunisasi harus diisi!" );
-            return redirect()->back();
-        }
-        $beriimunisasi = PosyanduBeriImunisasi::find( $id );
-        $beriimunisasi->update( $beriimunisasiUpdate );
-        $imunisasi = PosyanduBeriImunisasi::orderBy( 'updated_at' , 'desc')->get()->first();
-        Session::flash( 'success', "Data pemberian imunisasi berhasil diperbarui!" );
-        return redirect()->route( 'posyandu.balita.show' , $imunisasi->id_balita );
+            $beriimunisasi = PosyanduBeriImunisasi::find( $id );
+            $beriimunisasi->update( $beriimunisasiUpdate );
+            $beriimunisasi = PosyanduBeriImunisasi::orderBy( 'updated_at' , 'desc')->get()->first();
+            Session::flash( 'success', "Data pemberian kapsul berhasil diperbarui!" );
+            return redirect()->route( 'posyandu.balita.show' , $beriimunisasi->id_balita );
+        }        
+        else
+        {
+            Session::flash( 'warning', "Data pada jenis imunisasi yang dipilih sudah ada!" );
+            return redirect()->back();  
+        }  
     }
 
     /**
@@ -119,7 +141,7 @@ class PosyanduBeriImunisasiController extends Controller
      */
     public function destroy($id)
     {
-        $imunisasi = PosyanduBeriImunisasi::find($id)->get()->first();
+        $imunisasi = PosyanduBeriImunisasi::find($id);
         PosyanduBeriImunisasi::find( $id )->delete();
         Session::flash( 'success', "Data pemberian imunisasi berhasil dihapus!" );
         return redirect()->route( 'posyandu.balita.show' , $imunisasi->id_balita );

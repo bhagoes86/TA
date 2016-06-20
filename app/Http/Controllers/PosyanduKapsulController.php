@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
-use Session;
-use Auth;
+use Illuminate\Http\Request;
+
 use App\Http\Requests;
+use App\Http\Requests\PosyanduKapsulRequest;
 use App\Http\Controllers\Controller;
+
+use Auth;
+use Session;
+
 use App\PosyanduKapsul;
 use App\PosyanduData;
 use App\PosyanduBalita;
@@ -47,18 +51,32 @@ class PosyanduKapsulController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduKapsulRequest $request)
     {
-        $kapsul = Request::all();
-        if($kapsul['umur'] == NULL)
+        $kapsul = $request->all();
+        if(($kapsul['umur'] == '6' && $kapsul['jenis'] != 'Kapsul Biru') || ($kapsul['umur'] != '6' && $kapsul['jenis'] == 'Kapsul Biru'))
         {
-            Session::flash( 'warning', "Data umur pemberian kapsul harus diisi!" );
-            return redirect()->back();
+            Session::flash( 'info', "<b>Kapsul Biru</b> hanya untuk usia 6-11 Bulan" );
+            return redirect()->back();  
         }
-        PosyanduKapsul::create( $kapsul );
-        $kapsul = PosyanduKapsul::orderBy( 'created_at' , 'desc')->get()->first();
-        Session::flash( 'success', "Data pemberian kapsul baru berhasil ditambahkan!" );
-        return redirect()->route( 'posyandu.balita.show' , $kapsul['id_balita'] );
+
+        $periksaKapsul = PosyanduKapsul::select( 'id' )
+                        ->where( 'posyandu_pemberian_kapsul.id_balita' , $kapsul['id_balita'])
+                        ->where( 'posyandu_pemberian_kapsul.umur' , $kapsul['umur'] )
+                        ->get()->first();
+
+        if($periksaKapsul == NULL)
+        {
+            PosyanduKapsul::create( $kapsul );
+            $kapsul = PosyanduKapsul::orderBy( 'created_at' , 'desc')->get()->first();
+            Session::flash( 'success', "Data pemberian kapsul baru berhasil ditambahkan!" );
+            return redirect()->route( 'posyandu.balita.show' , $kapsul['id_balita'] );
+        }        
+        else
+        {
+            Session::flash( 'warning', "Data pada usia pemberian kapsul yang dipilih sudah ada!" );
+            return redirect()->back()->withInput();  
+        }
     }
 
     /**
@@ -93,19 +111,31 @@ class PosyanduKapsulController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduKapsulRequest $request, $id)
     {
-        $kapsulUpdate = Request::all();
-        if($kapsulUpdate['umur'] == NULL)
+        $kapsulUpdate = $request->all();
+        if(($kapsulUpdate['umur'] == '6' && $kapsulUpdate['jenis'] != 'Kapsul Biru') || ($kapsulUpdate['umur'] != '6' && $kapsulUpdate['jenis'] == 'Kapsul Biru'))
         {
-            Session::flash( 'warning', "Data umur pemberian kapsul harus diisi!" );
-            return redirect()->back();
+            Session::flash( 'info', "<b>Kapsul Biru</b> hanya untuk usia 6-11 Bulan" );
+            return redirect()->back();  
         }
-        $kapsul = PosyanduKapsul::find( $id );
-        $kapsul->update( $kapsulUpdate );
-        $kapsul = PosyanduKapsul::orderBy( 'updated_at' , 'desc')->get()->first();
-        Session::flash( 'success', "Data pemberian kapsul berhasil diperbarui!" );
-        return redirect()->route( 'posyandu.balita.show' , $kapsul->id_balita );
+        $periksaKapsul = PosyanduKapsul::select( 'id' )
+                        ->where( 'posyandu_pemberian_kapsul.id_balita' , $kapsulUpdate['id_balita'])
+                        ->where( 'posyandu_pemberian_kapsul.umur' , $kapsulUpdate['umur'] )
+                        ->get()->first();
+        if($periksaKapsul == NULL || $periksaKapsul['id'] == $id)
+        {
+            $kapsul = PosyanduKapsul::find( $id );
+            $kapsul->update( $kapsulUpdate );
+            $kapsul = PosyanduKapsul::orderBy( 'updated_at' , 'desc')->get()->first();
+            Session::flash( 'success', "Data pemberian kapsul berhasil diperbarui!" );
+            return redirect()->route( 'posyandu.balita.show' , $kapsul->id_balita );
+        }        
+        else
+        {
+            Session::flash( 'warning', "Data pada usia pemberian kapsul yang dipilih sudah ada!" );
+            return redirect()->back();  
+        }           
     }
 
     /**
@@ -116,7 +146,7 @@ class PosyanduKapsulController extends Controller
      */
     public function destroy($id)
     {
-        $kapsul = PosyanduKapsul::find($id)->get()->first();
+        $kapsul = PosyanduKapsul::find($id);
         PosyanduKapsul::find( $id )->delete();
         Session::flash( 'success', "Data pemberian kapsul berhasil dihapus!" );
         return redirect()->route( 'posyandu.balita.show' , $kapsul->id_balita );

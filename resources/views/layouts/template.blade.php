@@ -16,8 +16,6 @@
     {!! HTML::style( 'adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css' ) !!}
     {!! HTML::style( 'adminlte/dist/css/AdminLTE.min.css' ) !!}
     {!! HTML::style( 'adminlte/dist/css/skins/_all-skins.min.css' ) !!}
-    {!! HTML::style( 'bower_components/bootstrap/dist/css/bootstrap.min.css' ) !!}
-    {!! HTML::style( 'bower_components/font-awesome/css/font-awesome.min.css' ) !!}
     
     @yield( 'css' )
   </head>
@@ -25,20 +23,20 @@
     @yield( 'content' )
 
     <!-- SCRIPTS -->
+    {!! HTML::script( 'adminlte/plugins/slimScroll/jquery.slimscroll.min.js' ) !!} 
+    {!! HTML::script( 'adminlte/dist/js/app.min.js' ) !!}
     {!! HTML::script( 'adminlte/plugins/jQuery/jQuery-2.1.4.min.js' ) !!}
     {!! HTML::script( 'adminlte/bootstrap/js/bootstrap.min.js' ) !!}
-    {!! HTML::script( 'adminlte/plugins/datatables/jquery.dataTables.min.js' ) !!}
-    {!! HTML::script( 'admin/plugins/datatables/dataTables.bootstrap.min.js' ) !!}
-    {!! HTML::script( 'adminlte/plugins/slimScroll/jquery.slimscroll.min.js' ) !!}
     {!! HTML::script( 'adminlte/plugins/fastclick/fastclick.js' ) !!}
-    <!-- {!! HTML::script( 'adminlte/dist/js/app.min.js' ) !!} -->
-    {!! HTML::script( 'adminlte/dist/js/demo.js' ) !!}
     {!! HTML::script( 'adminlte/plugins/sparkline/jquery.sparkline.min.js' ) !!}
     {!! HTML::script( 'adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' ) !!}
     {!! HTML::script( 'adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' ) !!}
     {!! HTML::script( 'adminlte/plugins/chartjs/Chart.min.js' ) !!}
-     {!! HTML::script( 'bower_components/jquery/dist/jquery.min.js' ) !!}
-    {!! HTML::script( 'bower_components/bootstrap/dist/js/bootstrap.min.js' ) !!}
+    {!! HTML::script( 'adminlte/plugins/datatables/jquery.dataTables.min.js' ) !!}
+    {!! HTML::script( 'adminlte/plugins/datatables/dataTables.bootstrap.min.js' ) !!}
+    {!! HTML::script( 'adminlte/dist/js/dashboard2.js' ) !!}
+    {!! HTML::script( 'adminlte/dist/js/demo.js' ) !!}
+    {!! HTML::script( 'js/validator.js' ) !!}
     @yield( 'script' )
     
   </body>

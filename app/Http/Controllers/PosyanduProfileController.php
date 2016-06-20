@@ -32,7 +32,6 @@ class PosyanduProfileController extends ProfileController
         $kabupaten = KabupatenKota::find( $kecamatan->kab_id );
         $provinsi = Provinsi::find( $kabupaten->prov_id );
         $daerah = PkkData::daerah( $provinsi->kode[0] );
-
         return view( 'pages.posyandu.profile.index', compact( 'data' , 'posyandu' , 'kelurahan' , 'kecamatan' , 'kabupaten' , 'provinsi' , 'daerah') );
     }
 }

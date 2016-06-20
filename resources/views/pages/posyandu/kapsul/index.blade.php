@@ -43,7 +43,7 @@
                       <td>{!! ++$a !!}</td>
                       <td>{!! $kaps->nama !!}</td>
                       <td>{!! $kaps->jenis !!}</td>
-                      <td>{!! $kaps->created_at !!}</td>
+                      <td>{!! $kaps->tanggal !!}</td>
                       <td>
                         <div class="btn-group btn-group-justified">
                           <div class="btn-group" role="group">

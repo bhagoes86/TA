@@ -35,31 +35,15 @@
     <div class="col-md-12">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title"><i class="glyphicon glyphicon-user"></i> Data Ibu</h3>
+          <h3 class="box-title"><i class="glyphicon glyphicon-user"></i> Data Ibu </h3>
         </div>
           {!! BootForm::open()->action( route( 'posyandu.ibu.store' ))!!}
           <div class="box-body">
-            @if(Auth::user()->id == '1')
-              <div class="form-group">
-                {!! Form::label('Posyandu', 'Pilih Posyandu:') !!}
-                <select class="special-flexselect form-control" id="data-posyandu" name="id_posyandu" tabindex="1">
-                  <option value=""></option>
-                  @foreach($posyandu as $data)
-                    @if(isset($ibu) && $ibu->id_posyandu == $data->id)
-                      <option value="{!! $data->id !!}" selected>{!! $data->nama !!}, {!! $data->alamat !!}</option>
-                    @else
-                      <option value="{!! $data->id !!}">{!! $data->nama !!}, {!! $data->alamat !!}</option>
-                    @endif
-                  @endforeach
-                </select>
-              </div>
-            @else
-              <div class="hidden"> 
-                <select class="special-flexselect form-control" id="data-posyandu" name="id_posyandu" tabindex="1">
-                  <option value="{!! $user->id_posyandu !!}" selected>{!! $user->id_posyandu !!}</option>
-                </select>
-              </div>
-            @endif
+            <div class="hidden"> 
+              <select class="special-flexselect form-control" id="data-posyandu" name="id_posyandu" tabindex="1">
+                <option value="{!! $user->id_posyandu !!}" selected>{!! $user->id_posyandu !!}</option>
+              </select>
+            </div>
           </div>
           @include( 'pages.posyandu.ibu.form' )
         {!! BootForm::close() !!}

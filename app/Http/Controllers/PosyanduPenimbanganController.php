@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Request;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Requests\PosyanduPenimbanganRequest;
+use App\Http\Controllers\Controller;
+
 use Session;
 use Auth;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+
 use App\PosyanduPenimbangan;
 use App\PosyanduBalita;
 use App\PosyanduData;
-use Cartalyst\Sentinel\Native\Facades\Sentinel;
 
 class PosyanduPenimbanganController extends Controller
 {
@@ -46,13 +49,26 @@ class PosyanduPenimbanganController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduPenimbanganRequest $request)
     {
-        $penimbangan = Request::all();
-        PosyanduPenimbangan::create( $penimbangan );
-        $penimbangan = PosyanduPenimbangan::orderBy( 'created_at' , 'desc')->get()->first();
-        Session::flash( 'success', "Data Penimbangan baru berhasil ditambahkan!" );
-        return redirect()->route( 'posyandu.balita.show' , $penimbangan['id_balita'] );
+        $penimbangan = $request->all();
+
+        $periksaPenimbangan = PosyanduPenimbangan::select( 'id' )
+                        ->where( 'posyandu_penimbangan.id_balita' , $penimbangan['id_balita'])
+                        ->where( 'posyandu_penimbangan.umur' , $penimbangan['umur'] )
+                        ->get()->first();
+        if($periksaPenimbangan == NULL)
+        {
+            PosyanduPenimbangan::create( $penimbangan );
+            $penimbangan = PosyanduPenimbangan::orderBy( 'created_at' , 'desc')->get()->first();
+            Session::flash( 'success', "Data Penimbangan baru berhasil ditambahkan!" );
+            return redirect()->route( 'posyandu.balita.show' , $penimbangan['id_balita'] );
+        }        
+        else
+        {
+            Session::flash( 'warning', "Data pada usia penimbangan yang dipilih sudah ada!" );
+            return redirect()->back()->withInput();  
+        }
     }
 
     /**
@@ -91,14 +107,30 @@ class PosyanduPenimbanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduPenimbanganRequest $request, $id)
     {
-        $penimbanganUpdate = Request::all();
-        $penimbangan = PosyanduPenimbangan::find( $id );
-        $penimbangan->update( $penimbanganUpdate );
-        $penimbangan = PosyanduPenimbangan::orderBy( 'updated_at' , 'desc')->get()->first();
-        Session::flash( 'success', "Data penimbangan berhasil diperbarui!" );
-        return redirect()->route( 'posyandu.balita.show' , $penimbangan->id_balita );
+        $penimbanganUpdate = $request->all();
+
+        $periksaPenimbangan = PosyanduPenimbangan::select( 'id' )
+                        ->where( 'posyandu_penimbangan.id_balita' , $penimbanganUpdate['id_balita'])
+                        ->where( 'posyandu_penimbangan.umur' , $penimbanganUpdate['umur'] )
+                        ->get()->first();
+
+        if($periksaPenimbangan == NULL || $periksaPenimbangan['id'] == $id)
+        {
+            $penimbangan = PosyanduPenimbangan::find( $id );
+            $penimbangan->update( $penimbanganUpdate );
+            $penimbangan = PosyanduPenimbangan::orderBy( 'updated_at' , 'desc')->get()->first();
+            Session::flash( 'success', "Data penimbangan berhasil diperbarui!" );
+            return redirect()->route( 'posyandu.balita.show' , $penimbangan->id_balita );
+        }        
+        else
+        {
+            Session::flash( 'warning', "Data pada usia penimbangan yang dipilih sudah ada!" );
+            return redirect()->back();  
+        }  
+
+
     }
 
     /**

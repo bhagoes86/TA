@@ -33,6 +33,7 @@ class Kernel extends HttpKernel
         'pkk-login' => \App\Http\Middleware\PkkLoginMiddleware::class,
         'pkk-admin-login' => \App\Http\Middleware\PkkAdminLoginMiddleware::class,
         'posyandu-login' => \App\Http\Middleware\PosyanduLoginMiddleware::class,
+        'posyandu-login-khusus' => \App\Http\Middleware\PosyanduLoginKhususMiddleware::class,
         'posyandu-admin-login' => \App\Http\Middleware\PosyanduAdminLoginMiddleware::class,
     ];
 }

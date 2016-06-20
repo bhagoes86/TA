@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
-use Session;
-use Auth;
+use Illuminate\Http\Request;
+
 use App\Http\Requests;
+use App\Http\Requests\PosyanduAbsenRequest;
 use App\Http\Controllers\Controller;
+
+use Auth;
+use Session;
+
 use App\PosyanduAbsen;
 use App\PosyanduBalita;
 use App\PosyanduData;
@@ -34,9 +38,9 @@ class PosyanduAbsenController extends Controller
      */
     public function create()
     {
-        $balita = PosyanduBalita::orderBy( 'nama', 'asc' )->get();
-        // $balita = PosyanduBalita::selcet(  )->get();
-        // $posyandu = PosyanduData::orderBy( 'nama', 'asc' )->get();
+        $balita = PosyanduBalita::orderBy( 'nama', 'asc' )
+                        ->where('posyandu_balita.id_posyandu', Auth::user()->id_posyandu)
+                        ->get();
         return view( 'pages.posyandu.absen.create', compact( 'balita') );
     }
 
@@ -46,9 +50,9 @@ class PosyanduAbsenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduAbsenRequest $request)
     {
-        $absen = Request::all();
+        $absen = $request->all();
         PosyanduAbsen::create( $absen );
         Session::flash( 'success', "Data absen baru berhasil ditambahkan!" );
         return redirect()->route( 'posyandu.absen' );
@@ -74,9 +78,10 @@ class PosyanduAbsenController extends Controller
     public function edit($id)
     {
         $absen = PosyanduAbsen::find( $id );
-        $balita = PosyanduBalita::orderBy( 'nama', 'asc' )->get();
-        $posyandu = PosyanduData::orderBy( 'nama', 'asc' )->get();
-        return view( 'pages.posyandu.absen.edit', compact( 'absen', 'balita', 'posyandu' ) );
+        $balita = PosyanduBalita::orderBy( 'nama', 'asc' )
+                        ->where('posyandu_balita.id_posyandu', Auth::user()->id_posyandu)
+                        ->get();
+        return view( 'pages.posyandu.absen.edit', compact( 'absen', 'balita' ) );
     }
 
     /**
@@ -86,9 +91,9 @@ class PosyanduAbsenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduAbsenRequest $request, $id)
     {
-        $absenUpdate = Request::all();
+        $absenUpdate = $request->all();
         $absen = PosyanduAbsen::find( $id );
         $absen->update( $absenUpdate );
         Session::flash( 'success', "Data absen berhasil diperbarui!" );

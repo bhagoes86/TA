@@ -15,6 +15,9 @@ use Validator;
 use App\Role;
 use App\User;
 
+use App\PosyanduIbu;
+use App\PosyanduBalita;
+
 class PosyanduAuthController extends Controller
 {
     /**
@@ -25,8 +28,21 @@ class PosyanduAuthController extends Controller
     public function index()
     {
         // check if any user logged in
+        
         if ( Auth::check() ) {
             Auth::logout();
+            $balita = PosyanduBalita::all();
+            foreach($balita as $balitaUpdate)
+            {
+                $posyandu_ibu = PosyanduIbu::orderBy('id','asc')
+                                ->where('id' , $balitaUpdate->id_ibu)
+                                ->get()
+                                ->first();
+                if($balitaUpdate->umur < 60)
+                {
+                    $balitaUpdate->update( [ 'id_posyandu' => $posyandu_ibu->id_posyandu ] );
+                }
+            }
         }
         return view( 'pages.posyandu.login.index' );
     }

@@ -11,6 +11,7 @@ class PosyanduBeriImunisasi extends Model
   protected $fillable = [
     'id_balita',
     'id_imunisasi',
+    'tanggal',
   ];
 
   public function balita() {

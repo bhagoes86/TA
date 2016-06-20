@@ -43,7 +43,7 @@
                       <td>{!! ++$a !!}</td>
                       <td>{!! $imunisasi->nama !!}</td>
                       <td>{!! $imunisasi->jenis !!}</td>
-                      <td>{!! $imunisasi->created_at !!}</td>
+                      <td>{!! $imunisasi->tanggal !!}</td>
                       <td>
                         <div class="btn-group btn-group-justified">
                           <div class="btn-group" role="group">

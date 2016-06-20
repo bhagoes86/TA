@@ -17,7 +17,7 @@
           <p class="text-muted text-center">Data Posyandu</p>
           <ul class="list-group list-group-unbordered">
             <li class="list-group-item">
-              <b>Kode Wilayah</b> <a class="pull-right">{!! $provinsi->id.$kabupaten->id.$kecamatan->id.$kelurahan->id !!}</a>
+              <b>Kode Wilayah</b> <a class="pull-right">{!!$provinsi->kode!!}.{!!$kabupaten->kode!!}.{!!$kecamatan->kode!!}.{!!$kelurahan->kode!!}</a>
             </li>
             <li class="list-group-item">
               <b>Daerah</b> <a class="pull-right">{!! $daerah !!}</a>
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-4">
       <!-- USER ACCOUNT -->
       <div class="box box-primary">
         <div class="box-header with-border">
@@ -52,13 +52,12 @@
           {!! BootForm::hidden( 'id' ) !!}
           <div class="box-body">
             {!! BootForm::text( 'Username:', 'username' ) !!}
-          </div>
-          <div class="box-footer">
             {!! BootForm::submit( 'Simpan username baru' )->removeClass( 'btn-default' )->addClass( 'btn-primary' ) !!}
           </div>
         {!! BootForm::close() !!}
       </div>
-
+    </div>
+    <div class="col-md-4">
       <!-- PASSWORD MANAGEMENT -->
       <div class="box box-primary">
         <div class="box-header with-border">
@@ -71,8 +70,6 @@
             {!! BootForm::password( 'Kata sandi lama:', 'old_pass' ) !!}
             {!! BootForm::password( 'Kata sandi baru:', 'new_pass' ) !!}
             {!! BootForm::password( 'Masukkan ulang kata sandi baru:', 're_new_pass' ) !!}
-          </div>
-          <div class="box-footer">
             {!! BootForm::submit( 'Simpan kata sandi baru' )->removeClass( 'btn-default' )->addClass( 'btn-primary' ) !!}
           </div>
         {!! BootForm::close() !!}

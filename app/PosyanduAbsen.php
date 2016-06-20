@@ -11,6 +11,7 @@ class PosyanduAbsen extends Model
   protected $fillable = [
     'id_posyandu',
     'id_balita',
+    'tanggal',
   ];
 
   public function posyandu() {

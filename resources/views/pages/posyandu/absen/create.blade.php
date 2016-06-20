@@ -1,52 +1,53 @@
-@extends('posyandu/form')
+@extends('pages.posyandu.template')
 
-@include('layout/combodate')
-@include('layout/flexselect')
+@section( 'main-container-header-title', "Masukkan Data Absen Balita" )
 
-@section('pageheader')
-  Masukkan Data Absen Balita
+@section( 'custom-css' )
+  {!! HTML::style( 'adminlte/plugins/datepicker/datepicker3.css' ) !!}
 @endsection
 
-@section('form')
-  {!! Form::open(['url' => 'posyandu/absen', 'role' => 'form']) !!}
-    @if($Sentinel->permissions)
-      <div class="form-group">
-        {!! Form::label('id_posyandu', 'Pilih Posyandu:') !!}
-        <select class="special-flexselect form-control" id="data-posyandu" name="id_posyandu" tabindex="1">
-          <option value=""></option>
-          @foreach($posyandu as $data)
-              <option value="{!! $data->id !!}">{!! $data->nama !!}, {!! $data->alamat !!}</option>
-          @endforeach
-        </select>
-      </div>
-    @else
-      <div class="hidden"> 
-        {!! Form::text('id_posyandu', $Sentinel->id_posyandu, ['class' => 'form-control']) !!}
-      </div>
-    @endif
-
-    <div class="form-group">
-        {!! Form::label('id_balita', 'Pilih Balita:') !!}
-        <select class="special-flexselect form-control" id="data-posyandu" name="id_balita" tabindex="1">
-          <option value=""></option>
-          @foreach($balita as $databalita)
-            @if($Sentinel->permissions)
-              <option value="{!! $databalita->id !!}">{!! $databalita->nama !!}</option>
-            @else
-              @if(isset($databalita) && $databalita->id_posyandu == $Sentinel->id_posyandu)
-                <option value="{!! $databalita->id !!}">{!! $databalita->nama !!}</option>
-              @endif
-            @endif
-          @endforeach
-        </select>
-      </div>
-
-    <div class="form-group">
-      {!! Form::label('tanggal', 'Tanggal Absen:') !!}
-      {!! Form::text('tanggal', null, ['id' => 'combodate', 'class' => 'form-control']) !!}
-    </div>
-    <div class="form-group">
-      {!! Form::submit('Simpan', ['class' => 'btn btn-primary form-control']) !!}
-    </div>
-  {!! Form::close() !!}
+@section( 'custom-footer' )
+  {!! HTML::script( 'adminlte/plugins/datepicker/bootstrap-datepicker.js' ) !!}
+  {!! HTML::script( 'adminlte/plugins/datepicker/locales/bootstrap-datepicker.id.js' ) !!}
+  <script type="text/javascript">
+    $( function() {
+      $( '.datepicker3' ).datepicker({
+        format: "yyyy-mm-dd",
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "id",
+        autoclose: true,
+        todayHighlight: true
+      });
+    });
+  </script>
 @endsection
+
+@section( 'main-container-breadcrumb' )
+  <li><a href="{!! route( 'posyandu' ) !!}"><i class="fa fa-dashboard"></i> Menu Utama</a></li>
+  <li><a href="{!! route( 'posyandu.absen' ) !!}">Data Absen Balita</a></li>
+  <li class="active">Tambah Data Absen Balita</li>
+@endsection
+
+@section( 'main-content' )
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="glyphicon glyphicon-user"></i>Data Absen</h3>
+        </div>
+        {!! BootForm::open()->action( route( 'posyandu.absen.store' ))!!}
+        <div class="box-body">
+          <div class="hidden"> 
+            <select class="special-flexselect form-control" id="data-posyandu" name="id_posyandu" tabindex="1">
+              <option value="{!! Auth::user()->id_posyandu !!}" selected>{!! Auth::user()->id_posyandu !!}</option>
+            </select>
+          </div>
+        </div>
+        @include( 'pages.posyandu.absen.form' )
+
+        {!! BootForm::close() !!}
+       </div>
+    </div>
+  </div>
+@endsection 

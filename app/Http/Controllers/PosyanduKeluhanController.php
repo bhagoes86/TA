@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Requests\PosyanduKasRequest;
+use App\Http\Controllers\Controller;
+
 use Auth;
 use Session;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+
 use App\PosyanduJawabKeluhan;
 use App\PosyanduKeluhan;
 use App\PosyanduIbu;
@@ -59,7 +63,7 @@ class PosyanduKeluhanController extends Controller
      */
     public function comment(Request $request, $id)
     {
-        $data = Request::all();
+        $data = $request->all();
         PosyanduJawabKeluhan::create( [
             'id_keluhan' => $id,
             'isi' => $data['komentar'],
@@ -76,22 +80,22 @@ class PosyanduKeluhanController extends Controller
     public function delete_comment(Request $request, $id)
     {
         // $data = Request::all();
-        $idkeluhan = PosyanduJawabKeluhan::find( $id )->get()->first();
-        PosyanduJawabKeluhan::find( $id )->delete();
+        $idkeluhan = PosyanduJawabKeluhan::find( $id );
+        $idkeluhan->delete();
         Session::flash( 'success', "Jawaban keluhan berhasil dihapus!" );
         return redirect()->route( 'posyandu.keluhan.show' , $idkeluhan['id_keluhan'] );
     }
 
     public function edit_comment(Request $request)
     {
-        $data = Request::all();
-        $idkeluhan = PosyanduJawabKeluhan::find( $data['id'])->get()->first();
-        PosyanduJawabKeluhan::find( $data['id'] )->delete();
+        // $data = Request::all();
+        // $idkeluhan = PosyanduJawabKeluhan::find( $data['id'])->get()->first();
+        // PosyanduJawabKeluhan::find( $data['id'] )->delete();
 
-        return redirect()
-               ->action( 'PosyanduKeluhanController@show', [$idkeluhan['id_keluhan']] )
-               ->with( 'status', 'Komentar/balasan berhasil dihapus!' );
-        dd($data);
+        // return redirect()
+        //        ->action( 'PosyanduKeluhanController@show', [$idkeluhan['id_keluhan']] )
+        //        ->with( 'status', 'Komentar/balasan berhasil dihapus!' );
+        // dd($data);
     }
 
     /**
@@ -118,8 +122,8 @@ class PosyanduKeluhanController extends Controller
      */
     public function edit($id)
     {
-        $keluhan = PosyanduKeluhan::find( $id );
-        return view( 'posyandu.keluhan.edit', compact( 'keluhan' ) );
+        // $keluhan = PosyanduKeluhan::find( $id );
+        // return view( 'posyandu.keluhan.edit', compact( 'keluhan' ) );
     }
 
     /**
@@ -131,11 +135,11 @@ class PosyanduKeluhanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $keluhanUpdate = Request::all();
-        $keluhan = PosyanduKeluhan::find( $id );
-        $keluhan->update( $keluhanUpdate );
-        return redirect( 'posyandu/keluhan' )
-               ->with( 'status', 'Data Keluhan berhasil diperbarui!' );
+        // $keluhanUpdate = Request::all();
+        // $keluhan = PosyanduKeluhan::find( $id );
+        // $keluhan->update( $keluhanUpdate );
+        // return redirect( 'posyandu/keluhan' )
+        //        ->with( 'status', 'Data Keluhan berhasil diperbarui!' );
     }
 
     /**
@@ -146,8 +150,9 @@ class PosyanduKeluhanController extends Controller
      */
     public function destroy($id)
     {
-        PosyanduKeluhan::find( $id )->delete();
-        return redirect( 'posyandu/keluhan' )
-               ->with( 'status', 'Data Keluhan berhasil dihapus!' );
+        $keluhan = PosyanduKeluhan::find( $id );
+        $keluhan->delete();
+        Session::flash( 'success', "Data keluhan berhasil dihapus!" );
+        return redirect()->route( 'posyandu.keluhan');
     }
 }

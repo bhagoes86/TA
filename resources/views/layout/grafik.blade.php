@@ -185,7 +185,7 @@
             },
             yaxis: {
                 show: true,
-                tickSize: 2,
+                tickSize: 10,
                 tickDecimals: 0,
                 axisLabel: "(tinggi dalam cm)",
                 axisLabelPadding: 20,

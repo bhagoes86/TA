@@ -14,7 +14,7 @@
 @section( 'adminlte-menu-main' )
   <li class="treeview">
     <a href="{!! route( 'posyandu.logout' ) !!}">
-      <i class="glyphicon glyphicon-off"></i>
+      <i class="glyphicon glyphicon-log-out"></i>
       <span>Keluar dari sistem</span>
     </a>
   </li>
@@ -27,6 +27,14 @@
         <i class="glyphicon glyphicon-user"></i>
         <span>Profil Akun Saya</span>
       </a>
+    </li>
+    <li>
+      @if(Auth::user()->id == '1')
+        <a href="{!! route( 'backup' ) !!}">
+          <i class="glyphicon glyphicon-download"></i>
+          <span>Backup Database</span>
+        </a>
+      @endif
     </li>
 @endsection
 
@@ -51,12 +59,12 @@
     @else
       <li class="treeview">
         <a href="{!! route( 'posyandu.ibu' ) !!}">
-          <i class="glyphicon glyphicon-tags"></i> <span>Data Ibu</span>
+          <i class="glyphicon glyphicon-heart"></i> <span>Data Ibu</span>
         </a>
       </li>
       <li class="treeview">
         <a href="{!! route( 'posyandu.balita' ) !!}">
-          <i class="glyphicon glyphicon-tags"></i> <span>Data Balita</span>
+          <i class="glyphicon glyphicon-baby-formula"></i> <span>Data Balita</span>
         </a>
       </li>
       <li class="treeview">
@@ -67,16 +75,19 @@
         <ul class="treeview-menu">
           <li>
             <a href="{!! route( 'posyandu.pengurus' ) !!}">
+            <i class="glyphicon glyphicon-unchecked"></i>
               <span>Pengurus Posyandu</span>
             </a>
           </li>
           <li>
             <a href="{!! route( 'posyandu.kas' ) !!}">
+            <i class="glyphicon glyphicon-unchecked"></i>
               <span>Kas Posyandu</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{!! route( 'posyandu.absen' ) !!}">
+              <i class="glyphicon glyphicon-unchecked"></i>
               <span>Absen Posyandu</span>
             </a>
           </li>
@@ -84,35 +95,38 @@
       </li>      
       <li class="treeview">
         <a href="#">
-          <i class="glyphicon glyphicon-tags"></i> <span>Laporan</span>
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Laporan</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li>
             <a href="{!! route( 'posyandu.penimbangan' ) !!}">
+              <i class="glyphicon glyphicon-unchecked"></i>
               <span>Data Penimbangan</span>
             </a>
           </li>
           <li>
             <a href="{!! route( 'posyandu.beriimunisasi' ) !!}">
+              <i class="glyphicon glyphicon-unchecked"></i>
               <span>Data Imunisasi</span>
             </a>
           </li>
           <li>
             <a href="{!! route( 'posyandu.kapsul' ) !!}">
+              <i class="glyphicon glyphicon-unchecked"></i>
               <span>Data Vitamin</span>
             </a>
           </li>
         </ul>
       </li>
-      <li class="treeview">
+      <li class="treeview hidden">
           <a href="{!! route( 'posyandu.pengumuman' ) !!}">
           <i class="glyphicon glyphicon-tags"></i> <span>Data Pengumuman</span>
         </a>
       </li>
       <li class="treeview">
           <a href="{!! route( 'posyandu.keluhan' ) !!}">
-          <i class="glyphicon glyphicon-tags"></i> <span>Data Keluhan</span>
+          <i class="glyphicon glyphicon-comment"></i> <span>Data Keluhan</span>
         </a>
       </li>
       @endif

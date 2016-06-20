@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
-use Session;
+use Illuminate\Http\Request;
+
 use App\Http\Requests;
+use App\Http\Requests\PosyanduBalitaRequest;
 use App\Http\Controllers\Controller;
+
+use Auth;
+use Session;
+
 use App\PosyanduBalita;
 use App\PosyanduIbu;
 use App\PosyanduBeriImunisasi;
@@ -44,10 +49,11 @@ class PosyanduBalitaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduBalitaRequest $request)
     {
-        $data = Request::all();
+        $data = $request->all();
         PosyanduBalita::create( $data );
+
         $lastBalita = PosyanduBalita::select('id')->orderBy('created_at', 'desc')->first();
 
         PosyanduPenimbangan::create( [
@@ -111,9 +117,9 @@ class PosyanduBalitaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduBalitaRequest $request, $id)
     {
-        $balitaUpdate = Request::all();
+        $balitaUpdate = $request->all();
         $balita = PosyanduBalita::find( $id );
         $balita->update( $balitaUpdate );
 
@@ -121,7 +127,7 @@ class PosyanduBalitaController extends Controller
         $penimbangan->update($balitaUpdate);
 
         Session::flash( 'success', "Data Balita berhasil diperbarui!" );
-        return redirect()->route( 'posyandu.balita' );
+        return redirect()->route( 'posyandu.balita.show' , $id );
     }
 
     /**

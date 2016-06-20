@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Request;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Requests\PosyanduPengurusRequest;
+use App\Http\Controllers\Controller;
+
 use Auth;
 use Session;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+
 use App\PosyanduPengurus;
 use App\PosyanduData;
 
@@ -43,9 +47,9 @@ class PosyanduPengurusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PosyanduPengurusRequest $request)
     {
-        $pengurus = Request::all();
+        $pengurus = $request->all();
         PosyanduPengurus::create( $pengurus );
         Session::flash( 'success', "Data pengurus baru berhasil ditambahkan!" );
         return redirect()->route( 'posyandu.pengurus' );
@@ -83,9 +87,9 @@ class PosyanduPengurusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PosyanduPengurusRequest $request, $id)
     {
-        $pengurusUpdate = Request::all();
+        $pengurusUpdate = $request->all();
         $pengurus = PosyanduPengurus::find( $id );
         $pengurus->update( $pengurusUpdate );
         Session::flash( 'success', "Data pengurus berhasil diperbarui!" );

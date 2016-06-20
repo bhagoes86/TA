@@ -45,7 +45,7 @@ if(isset($_GET['type'])) {
     if ( $_GET['type'] == "isuserexist" ) {
       $query = "select
                   count(*) AS rownum,
-                  ibu.NO_KTP AS NO_KTP
+                  ibu.ID AS ID
                 from
                   POSYANDU_IBU as ibu
                 where
@@ -57,7 +57,7 @@ if(isset($_GET['type'])) {
       $row = mysqli_fetch_array( $result );
 
       if ( $row['rownum'] > 0 ) {
-          $output = array('status' => true, 'session' => $row['NO_KTP']);
+          $output = array('status' => true, 'session' => $row['ID']);
           echo json_encode( $output );
         }
       else {
@@ -156,7 +156,7 @@ if(isset($_GET['type'])) {
                   POSYANDU_BALITA balita,
                   POSYANDU_IBU ibu
                 where
-                  ibu.NO_KTP = '" . $_GET['session'] . "' and
+                  ibu.ID = '" . $_GET['session'] . "' and
                   balita.ID_IBU = ibu.ID
                 order by
                   balita.TANGGAL_LAHIR asc
@@ -255,7 +255,7 @@ if(isset($_GET['type'])) {
                  from
                    POSYANDU_IBU
                  where
-                   NO_KTP = '" . $_GET['session'] . "'
+                   ID = '" . $_GET['session'] . "'
                ";
 	  $result = mysqli_query( $mysqli, $query );
       $row = mysqli_fetch_array( $result );
@@ -295,7 +295,7 @@ if(isset($_GET['type'])) {
 	  $id = $row2[ID];
 	  
 	  $result3 = $mysqli->query("INSERT INTO POSYANDU_PENIMBANGAN (`ID`, `ID_BALITA`, `UMUR`, `TANGGAL`, `BERAT`, `TINGGI`, `NTOB`, `ASI`, `CREATED_AT`) 
-                                VALUES (' ', '$id', '0', NOW(), '$beratBadanLahir', '$panjangBadanLahir', 'N', '-', NOW()) ");
+                                VALUES (' ', '$id', '0', '$tanggalLahirAnak', '$beratBadanLahir', '$panjangBadanLahir', 'N', 'Yes', NOW()) ");
 	}
 
   else
@@ -330,7 +330,7 @@ if(isset($_GET['type'])) {
                   POSYANDU_BALITA balita,
                   POSYANDU_IBU ibu
                 where
-                  ibu.NO_KTP = '" . $_GET['session'] . "' and
+                  ibu.ID = '" . $_GET['session'] . "' and
                   balita.ID_IBU = ibu.ID and
                   balita.ID = '" . $_GET['idAnak'] . "'
                   ";
@@ -695,7 +695,7 @@ if(isset($_GET['type'])) {
                 where
                   balita.ID = '" . $_GET['idAnak'] . "' and
                   balita.ID = imunisasi.ID_BALITA and
-                  balita.NO_KTP = '" . $_GET['session'] . "'
+                  balita.ID_IBU = '" . $_GET['session'] . "'
                   ";
       $result = mysqli_query( $mysqli, $query );
       $var = array();
@@ -897,7 +897,7 @@ if(isset($_GET['type'])) {
                   POSYANDU_BALITA balita,
                   POSYANDU_IBU ibu
                 where
-                  ibu.NO_KTP = '" . $_GET['session'] . "' and
+                  ibu.ID = '" . $_GET['session'] . "' and
                   balita.ID_IBU = ibu.ID and
                   balita.ID = '" . $_GET['idAnak'] . "' and
                   balita.ID = kapsul.ID_BALITA
@@ -935,16 +935,16 @@ if(isset($_GET['type'])) {
                 from
                   POSYANDU_IBU
                 where
-                  NO_KTP = '" . $_GET['session'] ."' 
+                  ID = '" . $_GET['session'] ."' 
                   "; 
       $result = mysqli_query( $mysqli, $query);
       $row = mysqli_fetch_array( $result );
       
-      $noktp = $row['ID'];
+      $idIbu = $row['ID'];
       $judulKeluhan = mysql_real_escape_string($_GET["judulKeluhan"]);
       $isiKeluhan = mysql_real_escape_string($_GET["isiKeluhan"]);
       
-      $result = $mysqli->query("INSERT INTO POSYANDU_KELUHAN VALUES (' ', '$noktp', '$judulKeluhan', NOW(), '$isiKeluhan', NOW(),' ') ");
+      $result = $mysqli->query("INSERT INTO POSYANDU_KELUHAN VALUES (' ', '$idIbu', '$judulKeluhan', '$isiKeluhan', NOW(),' ') ");
     }
 
   else 
@@ -962,21 +962,19 @@ if(isset($_GET['type'])) {
 
     if($_GET['type'] == "tampilKeluhan" ) {
       $query = "select
-                  extract(day from keluh.TANGGAL) AS TANGGAL_KELUHAN,
-                  extract(month from keluh.TANGGAL) AS BULAN_KELUHAN,
-                  extract(year from keluh.TANGGAL) AS TAHUN_KELUHAN,
-                  dayofweek(keluh.TANGGAL) AS HARI_KELUHAN,
+                  extract(day from keluh.CREATED_AT) AS TANGGAL_KELUHAN,
+                  extract(month from keluh.CREATED_AT) AS BULAN_KELUHAN,
+                  extract(year from keluh.CREATED_AT) AS TAHUN_KELUHAN,
+                  dayofweek(keluh.CREATED_AT) AS HARI_KELUHAN,
                   keluh.JUDUL AS JUDUL_KELUHAN,
                   keluh.ISI AS ISI_KELUHAN,
                   keluh.ID AS ID_KELUHAN
                 from
-                  POSYANDU_KELUHAN keluh,
-                  POSYANDU_IBU ibu
+                  POSYANDU_KELUHAN keluh
                 where
-                  ibu.NO_KTP = '" . $_GET['session'] . "' and 
-                  keluh.ID_IBU = ibu.ID
+                  keluh.ID_IBU = '" . $_GET['session'] . "'
                 order by
-                  keluh.TANGGAL desc
+                  keluh.CREATED_AT desc
                 limit 5";
       $result = mysqli_query( $mysqli, $query );
       $var = array();
@@ -992,10 +990,10 @@ if(isset($_GET['type'])) {
 
     if ( $_GET['type'] == "getkeluhanbyid" ) {
       $query = "select
-                  extract(day from keluh.TANGGAL) AS TANGGAL_KELUHAN,
-                  extract(month from keluh.TANGGAL) AS BULAN_KELUHAN,
-                  extract(year from keluh.TANGGAL) AS TAHUN_KELUHAN,
-                  dayofweek(keluh.TANGGAL) AS HARI_KELUHAN,
+                  extract(day from keluh.CREATED_AT) AS TANGGAL_KELUHAN,
+                  extract(month from keluh.CREATED_AT) AS BULAN_KELUHAN,
+                  extract(year from keluh.CREATED_AT) AS TAHUN_KELUHAN,
+                  dayofweek(keluh.CREATED_AT) AS HARI_KELUHAN,
                   keluh.JUDUL AS JUDUL_KELUHAN,
                   keluh.ISI AS ISI_KELUHAN,
                   keluh.ID AS ID_KELUHAN,

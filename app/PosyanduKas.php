@@ -11,6 +11,7 @@ class PosyanduKas extends Model
   protected $fillable = [
     'id_posyandu',
     'id_jenis',
+    'tanggal',
     'nominal',
     'keterangan'
   ];
@@ -20,6 +21,6 @@ class PosyanduKas extends Model
   }
 
   public function jenis_kas() {
-    return $this->belongsTo( 'App\PosyanduJenisKas', 'id_jeni' );
+    return $this->belongsTo( 'App\PosyanduJenisKas', 'id_jenis' );
   }
 }
