@@ -328,15 +328,23 @@ Route::group( ['middleware' => 'posyandu-login-khusus'], function() {
 } );
 
 
-Route::get( 'panduan', function () {
+/*
+ * Routing Download...
+ */
+Route::get( 'panduan-apk', ['as' => 'panduan-apk', 'uses' => function () {
   $file= public_path(). "\dist\apk\Panduan.apk";
   return response()->download( $file );
-} );
+}] );
 
-Route::get( 'mobile', function () {
+Route::get( 'posyandu-apk', ['as' => 'posyandu-apk', 'uses' => function () {
   $file= public_path(). "\dist\apk\Posyandu.apk";
   return response()->download( $file );
-} );
+}] );
+
+Route::get( 'pkk-apk', ['as' => 'pkk-apk', 'uses' => function () {
+  $file= public_path(). "\dist\apk\Pkk.apk";
+  return response()->download( $file );
+}] );
 
 
 /*

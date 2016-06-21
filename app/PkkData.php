@@ -35,7 +35,7 @@ class PkkData extends Model
   }
 
   public function kegiatan() {
-    return $this->hasMany( 'App\Kegiatan', 'id_pkk' );
+    return $this->hasMany( 'App\PkkKegiatan', 'id_pkk' );
   }
 
   public function pengumuman() {

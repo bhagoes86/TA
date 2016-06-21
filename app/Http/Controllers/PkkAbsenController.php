@@ -41,7 +41,7 @@ class PkkAbsenController extends Controller
         $data['id_kegiatan'] = $id;
         $data['content'] = PkkAbsen::with( ['ibu' => function ( $q ) {
             $q->orderBy( 'nama' );
-        } ] )->get();
+        } ] )->where( 'id_kegiatan', $id )->get();
 
         if ( !$data['anggota'] ) {
             Session::flash( 'info', "Belum ada anggota PKK yang terdaftar, mohon untuk menambahkan anggota PKK anda terlebih dahulu" );

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Auth;
 use Session;
 
 use App\PkkKeluhan;
@@ -22,7 +23,9 @@ class PkkKeluhanController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkKeluhan::with( 'ibu' )->orderBy( 'created_at', 'desc' )->get();
+        $data['content'] = PkkKeluhan::with( 'ibu' )->whereHas( 'ibu', function ( $q ) {
+            $q->where( 'id_pkk', Auth::user()->id_pkk );
+        } )->orderBy( 'created_at', 'desc' )->get();
 
         return view( 'pages.pkk.pengurus.keluhan.index', compact( 'data' ) );
     }

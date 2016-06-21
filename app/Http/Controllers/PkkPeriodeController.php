@@ -23,7 +23,7 @@ class PkkPeriodeController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkPeriode::orderBy( 'tahun_mulai' )->get();
+        $data['content'] = PkkPeriode::orderBy( 'tahun_mulai' )->where( 'id_pkk', Auth::user()->id_pkk )->get();
 
         return view( 'pages.pkk.pengurus.periode.index', compact( 'data' ) );
     }

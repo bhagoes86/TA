@@ -23,8 +23,8 @@ class PkkDashboardController extends Controller
     {
       $data = [];
       $data['anggota'] = PkkIbu::where( 'id_pkk', Auth::user()->id_pkk )->count();
-      $data['jentik'] = PkkJentik::whereExists( function( $q ) {
-        $q->select( 'id' )->from( 'pkk_ibu' )->where( 'id_pkk', Auth::user()->id_pkk );
+      $data['jentik'] = PkkJentik::whereHas( 'ibu', function( $q ) {
+        $q->where( 'id_pkk', Auth::user()->id_pkk );
       } )->where( 'bulan_data', date( 'n' ) )->where( 'tahun_data', date( 'Y' ) )->sum( 'jumlah' );
 
       return view( 'pages.pkk.pengurus.dashboard.index', compact( 'data' ) );

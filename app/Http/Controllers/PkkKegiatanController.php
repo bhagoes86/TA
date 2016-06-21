@@ -22,7 +22,7 @@ class PkkKegiatanController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkKegiatan::with( 'notulensi' )->orderBy( 'tanggal', 'desc' )->get();
+        $data['content'] = PkkKegiatan::with( 'notulensi' )->where( 'id_pkk', Auth::user()->id_pkk )->orderBy( 'tanggal', 'desc' )->get();
 
         return view( 'pages.pkk.pengurus.kegiatan.index', compact( 'data' ) );
     }

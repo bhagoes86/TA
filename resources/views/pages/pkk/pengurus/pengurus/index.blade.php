@@ -50,7 +50,7 @@
                   <td>{!! ++$a !!}</td>
                   <td>{!! $row->ibu->nama !!}</td>
                   <td>{!! $row->periode->tahun_mulai !!}{!! $row->periode->tahun_mulai == $row->periode->tahun_selesai ? null : '/'.$row->periode->tahun_selesai !!}</td>
-                  <td>{!! $row->jabatan->nama !!}</td>
+                  <td>{!! $row->jabatan ? $row->jabatan->nama : "-" !!}</td>
                   <td>
                     <div class="btn-group btn-group-justified">
                       <div class="btn-group" role="group">

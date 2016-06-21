@@ -23,7 +23,7 @@ class PkkJabatanController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkJabatan::orderBy( 'nama' )->get();
+        $data['content'] = PkkJabatan::orderBy( 'nama' )->where( 'id_pkk', Auth::user()->id_pkk )->get();
 
         return view( 'pages.pkk.pengurus.jabatan.index', compact( 'data' ) );
     }

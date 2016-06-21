@@ -22,8 +22,8 @@ class PkkJenisKasController extends Controller
     public function index()
     {
         $data = [];
-        $data['pemasukan'] = PkkJenisKas::where( 'jenis', '1' )->orderBy( 'nama' )->get();
-        $data['pengeluaran'] = PkkJenisKas::where( 'jenis', '0' )->orderBy( 'nama' )->get();
+        $data['pemasukan'] = PkkJenisKas::where( 'jenis', '1' )->where( 'id_pkk', Auth::user()->id_pkk )->orderBy( 'nama' )->get();
+        $data['pengeluaran'] = PkkJenisKas::where( 'jenis', '0' )->where( 'id_pkk', Auth::user()->id_pkk )->orderBy( 'nama' )->get();
 
         return view( 'pages.pkk.pengurus.jeniskas.index', compact( 'data' ) );
     }

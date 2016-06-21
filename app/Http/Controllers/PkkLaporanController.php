@@ -22,7 +22,7 @@ class PkkLaporanController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkLaporan::orderBy( 'created_at', 'desc' )->get();
+        $data['content'] = PkkLaporan::orderBy( 'created_at', 'desc' )->where( 'id_pkk', Auth::user()->id_pkk )->get();
 
         return view( 'pages.pkk.pengurus.laporan.index', compact( 'data' ) );
     }

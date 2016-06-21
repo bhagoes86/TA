@@ -26,10 +26,10 @@ class PkkKasController extends Controller
     {
         $data = [];
         $data['pemasukan'] = PkkKas::with( 'ibu', 'jenis_kas' )->whereHas( 'jenis_kas', function ( $q ) {
-            $q->where( 'jenis', '1' );
+            $q->where( 'jenis', '1' )->where( 'id_pkk', Auth::user()->id_pkk );
         } )->orderBy( 'created_at', 'desc' )->get();
         $data['pengeluaran'] = PkkKas::with( 'ibu', 'jenis_kas' )->whereHas( 'jenis_kas', function ( $q ) {
-            $q->where( 'jenis', '0' );
+            $q->where( 'jenis', '0' )->where( 'id_pkk', Auth::user()->id_pkk );
         } )->orderBy( 'created_at', 'desc' )->get();
 
         return view( 'pages.pkk.pengurus.kas.index', compact( 'data' ) );
@@ -71,7 +71,6 @@ class PkkKasController extends Controller
         PkkKas::create( [
             'id_ibu'        => $request->id_ibu,
             'id_jenis_kas'  => $request->id_jenis_kas,
-            'id_pkk'        => Auth::user()->id_pkk,
             'nominal'       => $request->nominal,
         ] );
         Session::flash( 'success', "Data iuran ".( $type ? "pemasukan" : "pengeluaran" )." baru berhasil ditambahkan!" );
@@ -107,7 +106,6 @@ class PkkKasController extends Controller
         PkkKas::find( $id )->update( [
             'id_ibu'        => $request->id_ibu,
             'id_jenis_kas'  => $request->id_jenis_kas,
-            'id_pkk'        => Auth::user()->id_pkk,
             'nominal'       => $request->nominal,
         ] );
         Session::flash( 'success', "Data iuran berhasil dirubah!" );

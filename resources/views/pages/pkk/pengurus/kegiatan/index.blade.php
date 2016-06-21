@@ -53,8 +53,8 @@
                   <td>{!! $row->tanggal !!}</td>
                   <td><a href="{!! route( 'pkk.absen.show', $row->id ) !!}" class="btn btn-block btn-sm btn-primary">Lihat absensi</a></td>
                   <td>
-                    @if( $row->notulensi->first() )
-                      <a href="{!! route( 'pkk.notulensi.edit', $row->notulensi->first()->id ) !!}" class="btn btn-sm btn-success"><i class="fa fa-check"></i>&nbsp;&nbsp;Lihat notulensi</a>
+                    @if( $row->notulensi )
+                      <a href="{!! route( 'pkk.notulensi.edit', $row->notulensi->id ) !!}" class="btn btn-sm btn-success"><i class="fa fa-check"></i>&nbsp;&nbsp;Lihat notulensi</a>
                     @else
                       <a href="{!! route( 'pkk.notulensi.create', $row->id ) !!}" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>&nbsp;&nbsp;Tambah notulensi</a>
                     @endif

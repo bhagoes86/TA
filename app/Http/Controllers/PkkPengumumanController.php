@@ -22,7 +22,7 @@ class PkkPengumumanController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkPengumuman::orderBy( 'created_at', 'desc' )->get();
+        $data['content'] = PkkPengumuman::orderBy( 'created_at', 'desc' )->where( 'id_pkk', Auth::user()->id_pkk )->get();
 
         return view( 'pages.pkk.pengurus.pengumuman.index', compact( 'data' ) );
     }

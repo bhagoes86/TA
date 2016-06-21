@@ -56,7 +56,7 @@
             <hr>
             <h3>Tersedia dalam aplikasi mobile</h3>
             <p>Dikembangkan untuk para kader PKK agar tetap dapat berinteraksi dengan organisasi di manapun dan kapanpun</p>
-            <a href="" class="btn btn-success"><span class="fa fa-android"></span>&nbsp;&nbsp;Unduh .apk</a>
+            <a href="{!! route( 'pkk-apk' ) !!}" class="btn btn-success"><span class="fa fa-android"></span>&nbsp;&nbsp;Unduh .apk</a>
           </div>
         </div>
         <div class="col col-md-6 col-xs-12">
@@ -68,7 +68,7 @@
             <hr>
             <h3>Tersedia dalam aplikasi mobile</h3>
             <p>Dikembangkan untuk seluruh ibu agar dapat mengontrol kesehatan balita melalui KMS dan berinteraksi dengan posyandu daerahnya</p>
-            <a href="" class="btn btn-success"><span class="fa fa-android"></span>&nbsp;&nbsp;Unduh .apk</a>
+            <a href="{!! route( 'posyandu-apk' ) !!}" class="btn btn-success"><span class="fa fa-android"></span>&nbsp;&nbsp;Unduh .apk</a>
           </div>
         </div>
       </div>

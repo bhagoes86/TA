@@ -120,6 +120,15 @@ class PkkAdminUsersController extends Controller
      */
     public function add( UserRequest $request )
     {
+        $new_location = [
+            'prov_id'       => $request->prov_id ?: 0,
+            'kab_id'        => $request->kab_id ?: 0,
+            'kec_id'        => $request->kec_id ?: 0,
+            'kel_id'        => $request->kel_id ?: 0,
+            'rw'            => $request->rw ?: 0,
+            'rt'            => $request->rt ?: 0,
+        ];
+
         $new_location[ 'kode_wilayah' ] = Provinsi::find( $request->prov_id )->kode.( $request->kab_id > 0 ? '.'.KabupatenKota::find( $request->kab_id )->kode.( $request->kec_id > 0 ? '.'.Kecamatan::find( $request->kec_id )->kode.( $request->kel_id > 0 ? '.'.DesaKelurahan::find( $request->kel_id )->kode : "" ) : "" ) : "" );
         if ( PkkData::where( 'kode_wilayah', $new_location['kode_wilayah'] )->where( 'rw', $new_location['rw'] )->where( 'rt', $new_location['rt'] )->first() ) {
             Session::flash( 'danger', "Daerah sudah terdaftar" );
@@ -131,8 +140,8 @@ class PkkAdminUsersController extends Controller
             'kab_id'        => $request->kab_id,
             'kec_id'        => $request->kec_id,
             'kel_id'        => $request->kel_id,
-            'rw'            => $request->rw,
-            'rt'            => $request->rt,
+            'rw'            => $new_location[ 'rw' ],
+            'rt'            => $new_location[ 'rt' ],
             'kode_wilayah'  => $new_location[ 'kode_wilayah' ],
         ] );
 

@@ -25,9 +25,9 @@ class PkkPengurusController extends Controller
     public function index()
     {
         $data = [];
-        $data['content'] = PkkPengurus::with( [ 'ibu', 'periode', 'jabatan' => function ( $q ) {
+        $data['content'] = PkkPengurus::with( 'ibu', 'periode', 'jabatan' )->whereHas( 'ibu', function ( $q ) {
             $q->where( 'id_pkk', Auth::user()->id_pkk );
-        } ] )->get();
+        } )->get();
 
         return view( 'pages.pkk.pengurus.pengurus.index', compact( 'data' ) );
     }

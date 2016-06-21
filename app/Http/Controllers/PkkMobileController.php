@@ -276,7 +276,7 @@ class PkkMobileController extends Controller
         PkkKomentar::create( [
             'id_keluhan' => $data['idkel'],
             'isi'        => $data['isi'],
-            'pengirim'   => $data['session'],
+            'id_ibu'   => $data['session'],
         ] );
 
         return Response::json();
